@@ -1,5 +1,6 @@
 package com.techlingo.domain.user;
 
+import com.techlingo.dtos.RegisterRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,4 +40,14 @@ public class User {
 
     @Column(name = "lifes", nullable = false)
     private Integer lifes;
+
+    public User(RegisterRequestDTO data) {
+        this.name = data.name();
+        this.email = data.email();
+        this.password = data.password();
+        this.creationDate = LocalDateTime.now();
+        this.lastAccessDate = LocalDateTime.now();
+        this.score = BigDecimal.ZERO;
+        this.lifes = 0;
+    }
 }
