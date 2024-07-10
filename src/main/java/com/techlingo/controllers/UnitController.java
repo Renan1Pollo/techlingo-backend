@@ -1,0 +1,47 @@
+package com.techlingo.controllers;
+
+import com.techlingo.domain.unit.Unit;
+import com.techlingo.dtos.UnitDTO;
+import com.techlingo.services.CourseService;
+import com.techlingo.services.UnitService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/units")
+public class UnitController {
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private UnitService unitService;
+
+    @PostMapping
+    public ResponseEntity<Unit> createUnit(@RequestBody UnitDTO unitDTO) {
+        unitService.createUnit(unitDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{unitId}")
+    public ResponseEntity<?> updateUnit(@PathVariable Long unitId, @RequestBody UnitDTO unitDTO) {
+        Boolean isUpdated = this.unitService.updateUnit(unitId, unitDTO);
+        return isUpdated ? new ResponseEntity<>(HttpStatus.OK) : ResponseEntity.status(404).body("Unidade not found");
+    }
+
+    @DeleteMapping("/{unitId}")
+    public ResponseEntity<?> deleteUnitById(@PathVariable Long unitId) {
+        Boolean isDeleted = this.unitService.deleteUnitById(unitId);
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.status(404).body("Unidade not found");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Unit>> getAllUnits() {
+        List<Unit> units = this.unitService.getAllUnits();
+        return new ResponseEntity<>(units, HttpStatus.OK);
+    }
+}
