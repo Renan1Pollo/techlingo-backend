@@ -23,7 +23,8 @@ public class UnitService {
         Unit newUnit = new Unit(data);
 
         try {
-            newUnit.setCourse(searchCourseByName(data.curso()));
+            Course course = searchCourseByName(data.curso());
+            newUnit.setCourse(course);
         } catch (Exception e) {
             e.printStackTrace();
         }

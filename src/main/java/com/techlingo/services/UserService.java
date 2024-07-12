@@ -6,6 +6,9 @@ import com.techlingo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -16,6 +19,38 @@ public class UserService {
         User newUser = new User(data);
         repository.save(newUser);
         return newUser;
+    }
+
+    public Boolean login(String email, String password) {
+        Optional<User> userOptional = this.repository.findUserByEmail(email);
+
+        if (!userOptional.isPresent()) {
+            return false;
+        }
+
+        User user = userOptional.get();
+        return user.getEmail().equals(email) && user.getPassword().equals(password);
+    }
+
+    public Boolean updatePassword(Long id, String password) {
+        Optional<User> userOptional = findUserById(id);
+
+        if (userOptional.isPresent()) {
+            return false;
+        }
+
+        User user = userOptional.get();
+        user.setPassword(password);
+        repository.save(user);
+        return true;
+    }
+
+    public Optional<User> findUserById(Long id) {
+        return this.repository.findUserById(id);
+    }
+
+    public List<User> getAllUsers() {
+        return this.repository.findAll();
     }
 
 }

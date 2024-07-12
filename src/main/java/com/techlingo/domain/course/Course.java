@@ -29,8 +29,8 @@ public class Course {
     @Column(name = "image", nullable = false, length = 500)
     private String image;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Unit> units;
+//    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Unit> units;
 
     public Course(CourseDTO data) {
         this.name = data.name();
