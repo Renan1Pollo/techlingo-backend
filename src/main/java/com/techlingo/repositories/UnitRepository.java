@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface UnitRepository extends JpaRepository<Unit, Long> {
 
     Optional<Unit> findUnitById(Long id);
-
+    Optional<Unit> findUnitByTitle(String title);
     Optional<Unit> findUnitByCourse(Course course);
 }

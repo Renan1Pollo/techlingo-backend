@@ -1,26 +1,26 @@
-package com.techlingo.domain.unit;
+package com.techlingo.domain.lesson;
 
-import com.techlingo.domain.course.Course;
-import com.techlingo.dtos.UnitDTO;
+import com.techlingo.domain.unit.Unit;
+import com.techlingo.dtos.LessonDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity(name = "units")
-@Table(name = "units")
+@Entity(name = "lessons")
+@Table(name = "lessons")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Unit {
+public class Lesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "unit_id")
+    private Unit unit;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -34,7 +34,7 @@ public class Unit {
     @Column(name = "index", nullable = false)
     private Integer index;
 
-    public Unit(UnitDTO data) {
+    public Lesson(LessonDTO data) {
         this.title = data.title();
         this.description = data.description();
         this.points = data.points();

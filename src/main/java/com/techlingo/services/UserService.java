@@ -1,6 +1,7 @@
 package com.techlingo.services;
 
 import com.techlingo.domain.user.User;
+import com.techlingo.dtos.LoginRequestDTO;
 import com.techlingo.dtos.RegisterRequestDTO;
 import com.techlingo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +22,15 @@ public class UserService {
         return newUser;
     }
 
-    public Boolean login(String email, String password) {
-        Optional<User> userOptional = this.repository.findUserByEmail(email);
+    public Boolean login(LoginRequestDTO data) {
+        Optional<User> userOptional = this.repository.findUserByEmail(data.email());
 
         if (!userOptional.isPresent()) {
             return false;
         }
 
         User user = userOptional.get();
-        return user.getEmail().equals(email) && user.getPassword().equals(password);
+        return user.getEmail().equals(data.email()) && user.getPassword().equals(data.password());
     }
 
     public Boolean updatePassword(Long id, String password) {

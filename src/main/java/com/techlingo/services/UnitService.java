@@ -71,7 +71,12 @@ public class UnitService {
         return this.repository.findUnitByCourse(course).orElseThrow(() -> new Exception("Unidade não encontrada"));
     }
 
+    public Unit findUnitByTitle(String title) throws Exception {
+        return this.repository.findUnitByTitle(title).orElseThrow(() -> new Exception("Unidade não encontrada"));
+    }
+
     public Course searchCourseByName(String name) throws Exception {
         return this.courseService.findCourseByName(name);
     }
+
 }
