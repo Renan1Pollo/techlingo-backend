@@ -27,13 +27,13 @@ public class LessonController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{unitId}")
+    @PutMapping("/{lessonId}")
     public ResponseEntity<?> updateLesson(@PathVariable Long lessonId, @RequestBody LessonDTO lessonDTO) {
         Boolean isUpdated = this.lessonService.updateLesson(lessonId, lessonDTO);
         return isUpdated ? new ResponseEntity<>(HttpStatus.OK) : ResponseEntity.status(404).body("Licao not found");
     }
 
-    @DeleteMapping("/{unitId}")
+    @DeleteMapping("/{lessonId}")
     public ResponseEntity<?> deleteLessonById(@PathVariable Long lessonId) {
         Boolean isDeleted = this.lessonService.deleteLessonById(lessonId);
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.status(404).body("Licao not found");
