@@ -16,10 +16,16 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public User createUser(RegisterRequestDTO data) {
+    public Boolean createUser(RegisterRequestDTO data) {
+        Optional<User> userOptional = this.repository.findUserByEmail(data.email());
+
+        if (userOptional.isPresent()) {
+            return false;
+        }
+
         User newUser = new User(data);
         repository.save(newUser);
-        return newUser;
+        return true;
     }
 
     public Boolean login(LoginRequestDTO data) {

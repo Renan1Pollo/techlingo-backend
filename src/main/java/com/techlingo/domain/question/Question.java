@@ -25,9 +25,6 @@ public class Question {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "type", nullable = false)
-    private String type;
-
     @Column(name = "index", nullable = false)
     private Integer index;
 }

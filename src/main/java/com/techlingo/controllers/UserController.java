@@ -1,8 +1,6 @@
 package com.techlingo.controllers;
 
 import com.techlingo.domain.user.User;
-import com.techlingo.dtos.LoginRequestDTO;
-import com.techlingo.dtos.RegisterRequestDTO;
 import com.techlingo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,18 +15,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
-        Boolean loginSuccessful = this.userService.login(loginRequestDTO);
-        return loginSuccessful ? new ResponseEntity<>(HttpStatus.OK) : ResponseEntity.status(404).body("User not found");
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<User> createUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        userService.createUser(registerRequestDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
 
     @PutMapping("/{userId}")
     public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestBody String password) {
