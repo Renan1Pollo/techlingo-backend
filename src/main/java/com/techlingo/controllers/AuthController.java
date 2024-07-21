@@ -30,6 +30,6 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
         Boolean userCreated = userService.createUser(registerRequestDTO);
-        return userCreated ? new ResponseEntity<>(HttpStatus.CREATED) : ResponseEntity.status(400).body("User not found");
+        return userCreated ? new ResponseEntity<>(HttpStatus.CREATED) : ResponseEntity.status(400).body("User already exists");
     }
 }
