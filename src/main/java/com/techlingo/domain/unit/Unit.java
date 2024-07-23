@@ -36,6 +36,7 @@ public class Unit {
 
     public Unit(UnitDTO data) {
         this.title = data.title();
+        this.course = data.course();
         this.description = data.description();
         this.points = data.points();
         this.index = data.index();

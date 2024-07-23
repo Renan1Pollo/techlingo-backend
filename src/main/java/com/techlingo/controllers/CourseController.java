@@ -41,4 +41,14 @@ public class CourseController {
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> findCourseByName(@RequestParam String name) {
+        try {
+            Course course = this.courseService.findCourseByName(name);
+            return course != null ? new ResponseEntity<>(course, HttpStatus.OK) : ResponseEntity.status(404).body("Course not found");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
