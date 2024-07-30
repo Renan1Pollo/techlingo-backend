@@ -1,5 +1,6 @@
 package com.techlingo.controllers;
 
+import com.techlingo.domain.course.Course;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.UnitDTO;
 import com.techlingo.services.CourseService;
@@ -43,5 +44,15 @@ public class UnitController {
     public ResponseEntity<List<Unit>> getAllUnits() {
         List<Unit> units = this.unitService.getAllUnits();
         return new ResponseEntity<>(units, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<?> findUnitByTitle(@RequestParam String title) {
+        try {
+            Unit unit = this.unitService.findUnitByTitle(title);
+            return unit != null ? new ResponseEntity<>(unit, HttpStatus.OK) : ResponseEntity.status(404).body("Unidade not found");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

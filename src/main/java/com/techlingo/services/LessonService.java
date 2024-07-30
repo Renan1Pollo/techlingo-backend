@@ -21,14 +21,6 @@ public class LessonService {
 
     public Lesson createLesson(LessonDTO data) {
         Lesson newLesson = new Lesson(data);
-
-        try {
-            Unit unit = searchUnitByTitle(data.unit());
-            newLesson.setUnit(unit);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         repository.save(newLesson);
         return newLesson;
     }

@@ -36,6 +36,7 @@ public class Lesson {
 
     public Lesson(LessonDTO data) {
         this.title = data.title();
+        this.unit = data.unit();
         this.description = data.description();
         this.points = data.points();
         this.index = data.index();
