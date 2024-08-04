@@ -1,19 +1,25 @@
 package com.techlingo.services;
 
 import com.techlingo.domain.course.Course;
-import com.techlingo.dtos.CourseDTO;
+import com.techlingo.dtos.course.CourseDTO;
+import com.techlingo.dtos.course.CourseResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
 
     @Autowired
     private CourseRepository repository;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     public Course createCourse(CourseDTO data) {
         Course newCourse = new Course(data);
@@ -45,6 +51,13 @@ public class CourseService {
         }
 
         return false;
+    }
+
+    public List<CourseResponseDTO> getAllCourseDTOs() {
+        List<Course> courses = getAllCourses();
+        return courses.stream()
+                .map(entityMappingService::mapToCourseResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public List<Course> getAllCourses() {

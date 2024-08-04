@@ -1,7 +1,7 @@
 package com.techlingo.controllers;
 
 import com.techlingo.domain.lesson.Lesson;
-import com.techlingo.dtos.LessonDTO;
+import com.techlingo.dtos.lesson.LessonDTO;
 import com.techlingo.services.LessonService;
 import com.techlingo.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;

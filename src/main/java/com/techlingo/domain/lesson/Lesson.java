@@ -1,7 +1,7 @@
 package com.techlingo.domain.lesson;
 
 import com.techlingo.domain.unit.Unit;
-import com.techlingo.dtos.LessonDTO;
+import com.techlingo.dtos.lesson.LessonDTO;
 import jakarta.persistence.*;
 import lombok.*;
 

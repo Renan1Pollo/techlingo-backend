@@ -2,7 +2,7 @@ package com.techlingo.controllers;
 
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.unit.Unit;
-import com.techlingo.dtos.UnitDTO;
+import com.techlingo.dtos.unit.UnitDTO;
 import com.techlingo.services.CourseService;
 import com.techlingo.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +51,17 @@ public class UnitController {
         try {
             Unit unit = this.unitService.findUnitByTitle(title);
             return unit != null ? new ResponseEntity<>(unit, HttpStatus.OK) : ResponseEntity.status(404).body("Unidade not found");
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/searchCourse")
+    public ResponseEntity<?> findUnitByCourse(@RequestParam Long courseId) {
+        try {
+            Course course = this.courseService.findCourseById(courseId);
+            List<Unit> unitList = this.unitService.findUnitByCourse(course);
+            return !unitList.isEmpty() ? new ResponseEntity<>(unitList, HttpStatus.OK) : ResponseEntity.status(404).body("Unidade not found");
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -1,9 +1,12 @@
 package com.techlingo.domain.unit;
 
 import com.techlingo.domain.course.Course;
-import com.techlingo.dtos.UnitDTO;
+import com.techlingo.domain.lesson.Lesson;
+import com.techlingo.dtos.unit.UnitDTO;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "units")
 @Table(name = "units")
@@ -34,6 +37,9 @@ public class Unit {
     @Column(name = "index", nullable = false)
     private Integer index;
 
+    @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lesson> lessons;
+
     public Unit(UnitDTO data) {
         this.title = data.title();
         this.course = data.course();
@@ -42,3 +48,4 @@ public class Unit {
         this.index = data.index();
     }
 }
+

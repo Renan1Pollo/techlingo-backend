@@ -1,4 +1,4 @@
-package com.techlingo.dtos;
+package com.techlingo.dtos.lesson;
 
 import com.techlingo.domain.unit.Unit;
 

@@ -2,7 +2,7 @@ package com.techlingo.services;
 
 import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.unit.Unit;
-import com.techlingo.dtos.LessonDTO;
+import com.techlingo.dtos.lesson.LessonDTO;
 import com.techlingo.repositories.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

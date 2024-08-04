@@ -2,11 +2,12 @@ package com.techlingo.services;
 
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.unit.Unit;
-import com.techlingo.dtos.UnitDTO;
+import com.techlingo.dtos.unit.UnitDTO;
 import com.techlingo.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,8 +60,15 @@ public class UnitService {
         return this.repository.findUnitById(id).orElseThrow(() -> new Exception("Unidade não encontrada"));
     }
 
-    public Unit findUnitByCourse(Course course) throws Exception {
-        return this.repository.findUnitByCourse(course).orElseThrow(() -> new Exception("Unidade não encontrada"));
+    public List<Unit> findUnitByCourse(Course course) throws Exception {
+        Optional<List<Unit>> optionalUnitList = this.repository.findUnitByCourse(course);
+
+        if (optionalUnitList.isPresent()) {
+            List<Unit> unitList = optionalUnitList.get();
+            return unitList;
+        }
+
+        return new ArrayList<>();
     }
 
     public Unit findUnitByTitle(String title) throws Exception {
