@@ -34,7 +34,7 @@ public class Unit {
     @Column(name = "points", nullable = false)
     private Double points;
 
-    @Column(name = "index", nullable = false)
+    @Column(name = "`index`", nullable = false)
     private Integer index;
 
     @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -31,7 +31,7 @@ public class Lesson {
     @Column(name = "points", nullable = false)
     private Double points;
 
-    @Column(name = "index", nullable = false)
+    @Column(name = "`index`", nullable = false)
     private Integer index;
 
     public Lesson(LessonDTO data) {
