@@ -3,6 +3,7 @@ package com.techlingo.controllers;
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.unit.UnitDTO;
+import com.techlingo.dtos.unit.UnitResponseDTO;
 import com.techlingo.services.CourseService;
 import com.techlingo.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class UnitController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Unit>> getAllUnits() {
-        List<Unit> units = this.unitService.getAllUnits();
+    public ResponseEntity<List<UnitResponseDTO>> getAllUnits() {
+        List<UnitResponseDTO> units = this.unitService.getAllUnitDTOs();
         return new ResponseEntity<>(units, HttpStatus.OK);
     }
 

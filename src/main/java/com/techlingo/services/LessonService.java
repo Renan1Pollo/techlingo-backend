@@ -3,12 +3,15 @@ package com.techlingo.services;
 import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.lesson.LessonDTO;
+import com.techlingo.dtos.lesson.LessonResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.repositories.LessonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class LessonService {
@@ -18,6 +21,9 @@ public class LessonService {
 
     @Autowired
     private UnitService unitService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     public Lesson createLesson(LessonDTO data) {
         Lesson newLesson = new Lesson(data);
@@ -49,6 +55,13 @@ public class LessonService {
         }
 
         return false;
+    }
+
+    public List<LessonResponseDTO> getAllLessonDTOs() {
+        List<Lesson> lessons = getAllLessons();
+        return lessons.stream()
+                .map(entityMappingService::mapToLessonResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public List<Lesson> getAllLessons() {

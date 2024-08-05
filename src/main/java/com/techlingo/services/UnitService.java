@@ -3,6 +3,8 @@ package com.techlingo.services;
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.unit.UnitDTO;
+import com.techlingo.dtos.unit.UnitResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.repositories.UnitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UnitService {
@@ -19,6 +22,9 @@ public class UnitService {
 
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private EntityMappingService entityMappingService;
+
 
     public Unit createUnit(UnitDTO data) {
         Unit newUnit = new Unit(data);
@@ -50,6 +56,13 @@ public class UnitService {
         }
 
         return false;
+    }
+
+    public List<UnitResponseDTO> getAllUnitDTOs() {
+        List<Unit> units = getAllUnits();
+        return units.stream()
+                .map(entityMappingService::mapToUnitResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public List<Unit> getAllUnits() {

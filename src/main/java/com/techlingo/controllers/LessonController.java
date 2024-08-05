@@ -2,6 +2,7 @@ package com.techlingo.controllers;
 
 import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.dtos.lesson.LessonDTO;
+import com.techlingo.dtos.lesson.LessonResponseDTO;
 import com.techlingo.services.LessonService;
 import com.techlingo.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,8 @@ public class LessonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Lesson>> getAllLessons() {
-        List<Lesson> lessons = this.lessonService.getAllLessons();
+    public ResponseEntity<List<LessonResponseDTO>> getAllLessons() {
+        List<LessonResponseDTO> lessons = this.lessonService.getAllLessonDTOs();
         return new ResponseEntity<>(lessons, HttpStatus.OK);
     }
 }
