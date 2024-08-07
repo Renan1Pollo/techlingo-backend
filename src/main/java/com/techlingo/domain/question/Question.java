@@ -1,9 +1,12 @@
 package com.techlingo.domain.question;
 
+import com.techlingo.domain.answer.Answer;
 import com.techlingo.domain.lesson.Lesson;
-import com.techlingo.domain.unit.Unit;
+import com.techlingo.dtos.question.QuestionDTO;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "questions")
 @Table(name = "questions")
@@ -25,6 +28,15 @@ public class Question {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "index", nullable = false)
+    @Column(name = "`index`", nullable = false)
     private Integer index;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Answer> answers;
+
+    public Question(QuestionDTO data) {
+        this.lesson = data.lesson();
+        this.description = data.description();
+        this.index = data.index();
+    }
 }
