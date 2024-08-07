@@ -42,7 +42,7 @@ public class UserService {
     public Boolean updatePassword(Long id, String password) {
         Optional<User> userOptional = findUserById(id);
 
-        if (userOptional.isPresent()) {
+        if (!userOptional.isPresent()) {
             return false;
         }
 

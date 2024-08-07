@@ -17,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestBody String password) {
+    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String password) {
         Boolean isUpdated = this.userService.updatePassword(userId, password);
         return isUpdated ? new ResponseEntity<>(HttpStatus.OK) : ResponseEntity.status(404).body("User not found");
     }
