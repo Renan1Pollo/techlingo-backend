@@ -51,6 +51,7 @@ public class UnitService {
 
         if (unitOptional.isPresent()) {
             Unit unit = unitOptional.get();
+            unit.getLessons().clear();
             repository.deleteById(unit.getId());
             return true;
         }

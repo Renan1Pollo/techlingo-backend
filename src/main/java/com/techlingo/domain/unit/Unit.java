@@ -37,7 +37,7 @@ public class Unit {
     @Column(name = "`index`", nullable = false)
     private Integer index;
 
-    @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "unit", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Lesson> lessons;
 
     public Unit(UnitDTO data) {
