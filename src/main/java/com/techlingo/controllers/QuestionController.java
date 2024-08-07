@@ -31,7 +31,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<?> deleteCourseById(@PathVariable Long questionId) {
+    public ResponseEntity<?> deleteQuestionById(@PathVariable Long questionId) {
         Boolean isDeleted = this.questionService.deleteQuestionById(questionId);
         return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.status(404).body("Question not found");
     }
