@@ -1,6 +1,7 @@
 package com.techlingo.services;
 
 import com.techlingo.domain.course.Course;
+import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.course.CourseDTO;
 import com.techlingo.dtos.course.CourseResponseDTO;
 import com.techlingo.mapper.EntityMappingService;
@@ -34,6 +35,7 @@ public class CourseService {
             Course existingCourse = coursesOptional.get();
             existingCourse = new Course(data);
             existingCourse.setId(id);
+
             repository.save(existingCourse);
             return true;
         }
@@ -46,6 +48,7 @@ public class CourseService {
 
         if (coursesOptional.isPresent()) {
             Course course = coursesOptional.get();
+            course.getUnits().clear();
             repository.deleteById(course.getId());
             return true;
         }
