@@ -1,6 +1,6 @@
 package com.techlingo.domain.user;
 
-import com.techlingo.dtos.RegisterRequestDTO;
+import com.techlingo.dtos.auth.RegisterRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
