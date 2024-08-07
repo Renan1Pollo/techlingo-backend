@@ -50,6 +50,7 @@ public class LessonService {
 
         if (lessonOptional.isPresent()) {
             Lesson lesson = lessonOptional.get();
+            lesson.getQuestions().clear();
             repository.deleteById(lesson.getId());
             return true;
         }

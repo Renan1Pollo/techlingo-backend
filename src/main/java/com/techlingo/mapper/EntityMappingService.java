@@ -1,13 +1,16 @@
 package com.techlingo.mapper;
 
 import com.techlingo.domain.course.Course;
+import com.techlingo.domain.question.Question;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.dtos.course.CourseResponseDTO;
+import com.techlingo.dtos.question.QuestionResponseDTO;
 import com.techlingo.dtos.unit.UnitResponseDTO;
 import com.techlingo.dtos.lesson.LessonResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +34,15 @@ public class EntityMappingService {
     }
 
     public LessonResponseDTO mapToLessonResponseDTO(Lesson lesson) {
-        return new LessonResponseDTO(lesson.getId(), lesson.getTitle(), lesson.getDescription(), lesson.getPoints(), lesson.getIndex());
+        List<QuestionResponseDTO> questionResponseDTOList = lesson.getQuestions().stream()
+                .map(this::mapToQuestionResponseDTO)
+                .collect(Collectors.toList());
+
+        return new LessonResponseDTO(lesson.getId(), lesson.getTitle(), lesson.getDescription(), lesson.getPoints(), lesson.getIndex(), questionResponseDTOList);
     }
+
+    public QuestionResponseDTO mapToQuestionResponseDTO(Question question) {
+        return new QuestionResponseDTO(question.getId(), question.getDescription(), question.getIndex(), new ArrayList<>());
+    }
+
 }
