@@ -1,6 +1,7 @@
 package com.techlingo.domain.answer;
 
 import com.techlingo.domain.question.Question;
+import com.techlingo.dtos.answer.AnswerDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,5 +30,12 @@ public class Answer {
 
     @Column(name = "correct", nullable = false)
     private boolean correct;
+
+    public Answer(AnswerDTO data) {
+        this.question = data.question();
+        this.text = data.text();
+        this.correct = data.correct();;
+        this.feedbackText = data.feedbackText();
+    }
 
 }

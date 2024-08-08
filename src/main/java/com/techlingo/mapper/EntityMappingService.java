@@ -1,16 +1,17 @@
 package com.techlingo.mapper;
 
+import com.techlingo.domain.answer.Answer;
 import com.techlingo.domain.course.Course;
+import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.question.Question;
 import com.techlingo.domain.unit.Unit;
-import com.techlingo.domain.lesson.Lesson;
+import com.techlingo.dtos.answer.AnswerResponseDTO;
 import com.techlingo.dtos.course.CourseResponseDTO;
+import com.techlingo.dtos.lesson.LessonResponseDTO;
 import com.techlingo.dtos.question.QuestionResponseDTO;
 import com.techlingo.dtos.unit.UnitResponseDTO;
-import com.techlingo.dtos.lesson.LessonResponseDTO;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,15 @@ public class EntityMappingService {
     }
 
     public QuestionResponseDTO mapToQuestionResponseDTO(Question question) {
-        return new QuestionResponseDTO(question.getId(), question.getDescription(), question.getIndex(), new ArrayList<>());
+        List<AnswerResponseDTO> answerResponseDTOList = question.getAnswers().stream()
+                .map(this::mapToAnswerResponseDTO)
+                .collect(Collectors.toList());
+
+        return new QuestionResponseDTO(question.getId(), question.getDescription(), question.getIndex(), answerResponseDTOList);
+    }
+
+    public AnswerResponseDTO mapToAnswerResponseDTO(Answer answer) {
+        return new AnswerResponseDTO(answer.getId(), answer.getText(), answer.getFeedbackText(), answer.isCorrect());
     }
 
 }
