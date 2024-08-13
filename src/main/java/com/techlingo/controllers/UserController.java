@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -16,15 +17,31 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String password) {
-        Boolean isUpdated = this.userService.updatePassword(userId, password);
-        return isUpdated ? new ResponseEntity<>(HttpStatus.OK) : ResponseEntity.status(404).body("User not found");
+    @PutMapping("/{userId}/password")
+    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String newPassword) {
+        boolean isUpdated = userService.updatePassword(userId, newPassword);
+        return buildResponse(isUpdated, "User not found");
+    }
+
+    @PutMapping("/{userId}/lifes/decrease")
+    public ResponseEntity<?> decreaseLifes(@PathVariable Long userId, @RequestParam int lifesToLose) {
+        boolean isUpdated = userService.decreaseLifes(userId, lifesToLose);
+        return buildResponse(isUpdated, "User not found");
+    }
+
+    @PutMapping("/{userId}/score/increase")
+    public ResponseEntity<?> increaseScore(@PathVariable Long userId, @RequestParam BigDecimal points) {
+        boolean isUpdated = userService.increaseScore(userId, points);
+        return buildResponse(isUpdated, "User not found");
     }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = this.userService.getAllUsers();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    private ResponseEntity<?> buildResponse(boolean condition, String errorMessage) {
+        return condition ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 }
