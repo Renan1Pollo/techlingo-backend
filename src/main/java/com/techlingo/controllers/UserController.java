@@ -17,7 +17,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/{userId}")
+    @PutMapping("/{userId}/password")
     public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String password) {
         boolean isUpdated = userService.updatePassword(userId, password);
         return buildResponse(isUpdated, "User not found");

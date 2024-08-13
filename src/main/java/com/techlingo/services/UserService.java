@@ -19,28 +19,28 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public Boolean login(LoginRequestDTO data) {
+    public Optional<User> login(LoginRequestDTO data) {
         Optional<User> userOptional = this.repository.findUserByEmail(data.email());
 
-        if (userOptional.isEmpty()) {
-            return false;
+        if (userOptional.isPresent() && userOptional.get().getPassword().equals(data.password())) {
+            User user = userOptional.get();
+            updateLivesBasedOnLastAccess(user);
+            return Optional.of(user);
         }
 
-        User user = userOptional.get();
-        updateLivesBasedOnLastAccess(user);
-        return user.getEmail().equals(data.email()) && user.getPassword().equals(data.password());
+        return Optional.empty();
     }
 
-    public Boolean createUser(RegisterRequestDTO data) {
+    public Optional<User> createUser(RegisterRequestDTO data) {
         Optional<User> userOptional = this.repository.findUserByEmail(data.email());
 
-        if (userOptional.isEmpty()) {
-            return false;
+        if (userOptional.isPresent()) {
+            return Optional.empty();
         }
 
         User newUser = new User(data);
         repository.save(newUser);
-        return true;
+        return Optional.of(newUser);
     }
 
     public Boolean decreaseLives(Long userId, Integer livesToLose) {
