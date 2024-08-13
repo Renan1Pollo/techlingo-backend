@@ -39,7 +39,7 @@ public class User {
     private BigDecimal score;
 
     @Column(name = "lifes", nullable = false)
-    private Integer lifes;
+    private Integer lives;
 
     public User(RegisterRequestDTO data) {
         this.name = data.name();
@@ -48,6 +48,6 @@ public class User {
         this.creationDate = LocalDateTime.now();
         this.lastAccessDate = LocalDateTime.now();
         this.score = BigDecimal.ZERO;
-        this.lifes = 0;
+        this.lives = 5;
     }
 }

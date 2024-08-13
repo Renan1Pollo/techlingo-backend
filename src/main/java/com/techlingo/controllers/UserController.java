@@ -17,15 +17,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PutMapping("/{userId}/password")
-    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String newPassword) {
-        boolean isUpdated = userService.updatePassword(userId, newPassword);
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String password) {
+        boolean isUpdated = userService.updatePassword(userId, password);
         return buildResponse(isUpdated, "User not found");
     }
 
     @PutMapping("/{userId}/lifes/decrease")
     public ResponseEntity<?> decreaseLifes(@PathVariable Long userId, @RequestParam int lifesToLose) {
-        boolean isUpdated = userService.decreaseLifes(userId, lifesToLose);
+        boolean isUpdated = userService.decreaseLives(userId, lifesToLose);
         return buildResponse(isUpdated, "User not found");
     }
 
