@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -67,10 +69,10 @@ public class CourseController {
     @GetMapping("/search")
     public ResponseEntity<?> findCourseByName(@RequestParam String name) {
         try {
-            Course course = this.courseService.findCourseByName(name);
-            return course != null ? new ResponseEntity<>(course, HttpStatus.OK) : ResponseEntity.status(404).body("Course not found");
+            Course course = courseService.findCourseByName(name);
+            return ResponseEntity.ok(entityMappingService.mapToCourseDetailsDTO(course));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found");
         }
     }
 
