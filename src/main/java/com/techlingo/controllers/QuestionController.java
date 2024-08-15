@@ -4,6 +4,7 @@ import com.techlingo.domain.question.Question;
 import com.techlingo.dtos.question.QuestionDTO;
 import com.techlingo.dtos.question.QuestionDetailsDTO;
 import com.techlingo.dtos.question.QuestionResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ public class QuestionController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     @PostMapping
     public ResponseEntity<Question> createQuestion(@RequestBody QuestionDTO questionDTO) {
@@ -47,6 +51,16 @@ public class QuestionController {
         public ResponseEntity<List<QuestionDetailsDTO>> getAllQuestionDetails() {
         List<QuestionDetailsDTO> questions = this.questionService.getAllQuestionDetails();
         return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
+    @GetMapping("/{questionId}")
+    public ResponseEntity<?> findQuestionById(@PathVariable Long questionId) {
+        try {
+            Question question = this.questionService.findQuestionById(questionId);
+            return ResponseEntity.ok(entityMappingService.mapToQuestionDetailsDTO(question));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question Not Found");
+        }
     }
 
 }

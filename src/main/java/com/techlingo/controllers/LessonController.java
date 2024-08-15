@@ -4,6 +4,7 @@ import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.dtos.lesson.LessonDTO;
 import com.techlingo.dtos.lesson.LessonDetailsDTO;
 import com.techlingo.dtos.lesson.LessonResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.LessonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ public class LessonController {
 
     @Autowired
     private LessonService lessonService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     @PostMapping
     public ResponseEntity<Lesson> createLesson(@RequestBody LessonDTO lessonDTO) {
@@ -47,5 +51,15 @@ public class LessonController {
     public ResponseEntity<List<LessonDetailsDTO>> getAllLessonDetailsDTOs() {
         List<LessonDetailsDTO> lessons = this.lessonService.getAllLessonDetailsDTOs();
         return new ResponseEntity<>(lessons, HttpStatus.OK);
+    }
+
+    @GetMapping("/{lessonId}")
+    public ResponseEntity<?> findLessonById(@PathVariable Long lessonId) {
+        try {
+            Lesson lesson = lessonService.findLessonById(lessonId);
+            return ResponseEntity.ok(entityMappingService.mapToLessonDetailsDTO(lesson));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Lesson Not Found");
+        }
     }
 }

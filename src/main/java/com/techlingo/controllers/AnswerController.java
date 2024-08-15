@@ -4,6 +4,7 @@ import com.techlingo.domain.answer.Answer;
 import com.techlingo.dtos.answer.AnswerDTO;
 import com.techlingo.dtos.answer.AnswerDetailsDTO;
 import com.techlingo.dtos.answer.AnswerResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.AnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ public class AnswerController {
 
     @Autowired
     private AnswerService answerService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     @PostMapping
     public ResponseEntity<Answer> createAnswer(@RequestBody AnswerDTO answerDTO) {
@@ -47,5 +51,15 @@ public class AnswerController {
     public ResponseEntity<List<AnswerDetailsDTO>> getAllAnswersDetails() {
         List<AnswerDetailsDTO> answers = this.answerService.getAllAnswersDetails();
         return new ResponseEntity<>(answers, HttpStatus.OK);
+    }
+
+    @GetMapping("/{answerId}")
+    public ResponseEntity<?> findAnswerById(@PathVariable Long answerId) {
+        try {
+            Answer answer = this.answerService.findAnswerById(answerId);
+            return ResponseEntity.ok(entityMappingService.mapToAnswerDetailsDTO(answer));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer Not Found");
+        }
     }
 }

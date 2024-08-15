@@ -5,6 +5,7 @@ import com.techlingo.dtos.course.CourseDTO;
 import com.techlingo.dtos.course.CourseDetailsDTO;
 import com.techlingo.dtos.course.CourseResponseDTO;
 import com.techlingo.dtos.unit.UnitDetailsDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class CourseController {
 
     @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody CourseDTO courseDTO) {
@@ -48,6 +52,16 @@ public class CourseController {
     public ResponseEntity<List<CourseDetailsDTO>> getAllCourseDetails() {
         List<CourseDetailsDTO> courses = this.courseService.getAllCourseDetails();
         return new ResponseEntity<>(courses, HttpStatus.OK);
+    }
+
+    @GetMapping("/{courseId}")
+    public ResponseEntity<?> findCourseById(@PathVariable Long courseId) {
+        try {
+            Course course = courseService.findCourseById(courseId);
+            return ResponseEntity.ok(entityMappingService.mapToCourseDetailsDTO(course));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found");
+        }
     }
 
     @GetMapping("/search")

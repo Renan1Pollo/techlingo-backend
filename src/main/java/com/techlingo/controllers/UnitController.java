@@ -5,6 +5,7 @@ import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.unit.UnitDTO;
 import com.techlingo.dtos.unit.UnitDetailsDTO;
 import com.techlingo.dtos.unit.UnitResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.CourseService;
 import com.techlingo.services.UnitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class UnitController {
 
     @Autowired
     private UnitService unitService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     @PostMapping
     public ResponseEntity<Unit> createUnit(@RequestBody UnitDTO unitDTO) {
@@ -52,6 +56,16 @@ public class UnitController {
     public ResponseEntity<List<UnitDetailsDTO>> getAllUnitDetails() {
         List<UnitDetailsDTO> units = this.unitService.getAllUnitDetails();
         return new ResponseEntity<>(units, HttpStatus.OK);
+    }
+
+    @GetMapping("/{unitId}")
+    public ResponseEntity<?> findUnitById(@PathVariable Long unitId) {
+        try {
+            Unit unit = unitService.findUnitById(unitId);
+            return ResponseEntity.ok(entityMappingService.mapToUnitDetailsDTO(unit));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unit Not Found");
+        }
     }
 
     @GetMapping("/search")
