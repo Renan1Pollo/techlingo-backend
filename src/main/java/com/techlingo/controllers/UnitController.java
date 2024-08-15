@@ -3,6 +3,7 @@ package com.techlingo.controllers;
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.unit.UnitDTO;
+import com.techlingo.dtos.unit.UnitDetailsDTO;
 import com.techlingo.dtos.unit.UnitResponseDTO;
 import com.techlingo.services.CourseService;
 import com.techlingo.services.UnitService;
@@ -42,8 +43,14 @@ public class UnitController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UnitResponseDTO>> getAllUnits() {
+    public ResponseEntity<List<UnitResponseDTO>> getAllUnitDTOs() {
         List<UnitResponseDTO> units = this.unitService.getAllUnitDTOs();
+        return new ResponseEntity<>(units, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UnitDetailsDTO>> getAllUnitDetails() {
+        List<UnitDetailsDTO> units = this.unitService.getAllUnitDetails();
         return new ResponseEntity<>(units, HttpStatus.OK);
     }
 

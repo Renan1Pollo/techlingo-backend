@@ -2,6 +2,7 @@ package com.techlingo.controllers;
 
 import com.techlingo.domain.question.Question;
 import com.techlingo.dtos.question.QuestionDTO;
+import com.techlingo.dtos.question.QuestionDetailsDTO;
 import com.techlingo.dtos.question.QuestionResponseDTO;
 import com.techlingo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public class QuestionController {
     @GetMapping
     public ResponseEntity<List<QuestionResponseDTO>> getAllQuestions() {
         List<QuestionResponseDTO> questions = this.questionService.getAllQuestionDTOs();
+        return new ResponseEntity<>(questions, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+        public ResponseEntity<List<QuestionDetailsDTO>> getAllQuestionDetails() {
+        List<QuestionDetailsDTO> questions = this.questionService.getAllQuestionDetails();
         return new ResponseEntity<>(questions, HttpStatus.OK);
     }
 

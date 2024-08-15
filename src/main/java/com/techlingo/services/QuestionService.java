@@ -3,6 +3,7 @@ package com.techlingo.services;
 import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.question.Question;
 import com.techlingo.dtos.question.QuestionDTO;
+import com.techlingo.dtos.question.QuestionDetailsDTO;
 import com.techlingo.dtos.question.QuestionResponseDTO;
 import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.repositories.QuestionRepository;
@@ -59,6 +60,13 @@ public class QuestionService {
         List<Question> questions = getAllQuestions();
         return questions.stream()
                 .map(entityMappingService::mapToQuestionResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<QuestionDetailsDTO> getAllQuestionDetails() {
+        List<Question> questions = getAllQuestions();
+        return questions.stream()
+                .map(entityMappingService::mapToQuestionDetailsDTO)
                 .collect(Collectors.toList());
     }
 

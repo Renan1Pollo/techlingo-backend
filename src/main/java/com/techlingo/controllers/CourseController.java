@@ -2,7 +2,9 @@ package com.techlingo.controllers;
 
 import com.techlingo.domain.course.Course;
 import com.techlingo.dtos.course.CourseDTO;
+import com.techlingo.dtos.course.CourseDetailsDTO;
 import com.techlingo.dtos.course.CourseResponseDTO;
+import com.techlingo.dtos.unit.UnitDetailsDTO;
 import com.techlingo.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,6 +41,12 @@ public class CourseController {
     @GetMapping
     public ResponseEntity<List<CourseResponseDTO>> getAllCourses() {
         List<CourseResponseDTO> courses = this.courseService.getAllCourseDTOs();
+        return new ResponseEntity<>(courses, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<CourseDetailsDTO>> getAllCourseDetails() {
+        List<CourseDetailsDTO> courses = this.courseService.getAllCourseDetails();
         return new ResponseEntity<>(courses, HttpStatus.OK);
     }
 
