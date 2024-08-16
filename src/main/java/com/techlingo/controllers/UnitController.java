@@ -71,10 +71,10 @@ public class UnitController {
     @GetMapping("/search")
     public ResponseEntity<?> findUnitByTitle(@RequestParam String title) {
         try {
-            Unit unit = this.unitService.findUnitByTitle(title);
-            return unit != null ? new ResponseEntity<>(unit, HttpStatus.OK) : ResponseEntity.status(404).body("Unidade not found");
+            Unit unit = unitService.findUnitByTitle(title);
+            return ResponseEntity.ok(entityMappingService.mapToUnitDetailsDTO(unit));
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unit Not Found");
         }
     }
 
