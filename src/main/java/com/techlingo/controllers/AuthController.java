@@ -34,4 +34,10 @@ public class AuthController {
         Optional<User> userOptional = userService.createUser(registerRequestDTO);
         return userOptional.isPresent() ? new ResponseEntity<>(userOptional.get(), HttpStatus.CREATED) : ResponseEntity.status(400).body("User already exists");
     }
+
+    @PostMapping("/register/admin")
+    public ResponseEntity<?> createAdmin(@RequestBody RegisterRequestDTO registerRequestDTO) {
+        Optional<User> userOptional = userService.createAdmin(registerRequestDTO);
+        return userOptional.isPresent() ? new ResponseEntity<>(userOptional.get(), HttpStatus.CREATED) : ResponseEntity.status(400).body("Admin already exists");
+    }
 }

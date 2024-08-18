@@ -41,7 +41,11 @@ public class User {
     @Column(name = "lifes", nullable = false)
     private Integer lives;
 
-    public User(RegisterRequestDTO data) {
+    @Column(name = "user_role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    public User(RegisterRequestDTO data, Boolean isAdmin) {
         this.name = data.name();
         this.email = data.email();
         this.password = data.password();
@@ -49,5 +53,6 @@ public class User {
         this.lastAccessDate = LocalDateTime.now();
         this.score = BigDecimal.ZERO;
         this.lives = 5;
+        this.userRole = isAdmin ? UserRole.ADMIN : UserRole.USER;
     }
 }

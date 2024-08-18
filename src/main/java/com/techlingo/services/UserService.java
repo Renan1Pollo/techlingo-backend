@@ -38,7 +38,19 @@ public class UserService {
             return Optional.empty();
         }
 
-        User newUser = new User(data);
+        User newUser = new User(data, false);
+        repository.save(newUser);
+        return Optional.of(newUser);
+    }
+
+    public Optional<User> createAdmin(RegisterRequestDTO data) {
+        Optional<User> userOptional = this.repository.findUserByEmail(data.email());
+
+        if (userOptional.isPresent()) {
+            return Optional.empty();
+        }
+
+        User newUser = new User(data, true);
         repository.save(newUser);
         return Optional.of(newUser);
     }
