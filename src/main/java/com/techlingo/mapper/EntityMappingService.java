@@ -2,6 +2,7 @@ package com.techlingo.mapper;
 
 import com.techlingo.domain.answer.Answer;
 import com.techlingo.domain.course.Course;
+import com.techlingo.domain.enrollment.Enrollment;
 import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.question.Question;
 import com.techlingo.domain.unit.Unit;
@@ -9,6 +10,8 @@ import com.techlingo.dtos.answer.AnswerDetailsDTO;
 import com.techlingo.dtos.answer.AnswerResponseDTO;
 import com.techlingo.dtos.course.CourseDetailsDTO;
 import com.techlingo.dtos.course.CourseResponseDTO;
+import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
+import com.techlingo.dtos.enrollment.EnrollmentResponseDTO;
 import com.techlingo.dtos.lesson.LessonDetailsDTO;
 import com.techlingo.dtos.lesson.LessonResponseDTO;
 import com.techlingo.dtos.question.QuestionDetailsDTO;
@@ -22,6 +25,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class EntityMappingService {
+
+    public EnrollmentResponseDTO mapToEnrollmentResponseDTO(Enrollment enrollment) {
+        return new EnrollmentResponseDTO(enrollment.getId(), enrollment.getUser(), this.mapToCourseResponseDTO(enrollment.getCourse()), enrollment.getEnrollmentDate(), enrollment.getCurrentLesson());
+    }
 
     public CourseResponseDTO mapToCourseResponseDTO(Course course) {
         List<UnitResponseDTO> unitResponseDTOList = course.getUnits().stream()
@@ -60,6 +67,10 @@ public class EntityMappingService {
     }
 
     // Map To Details DTO
+
+    public EnrollmentDetailsDTO mapToEnrollmentDetailsDTO(Enrollment enrollment) {
+        return new EnrollmentDetailsDTO(enrollment.getId(), enrollment.getUser(), this.mapToCourseDetailsDTO(enrollment.getCourse()), enrollment.getEnrollmentDate(), enrollment.getCurrentLesson());
+    }
 
     public CourseDetailsDTO mapToCourseDetailsDTO(Course course) {
         return new CourseDetailsDTO(course.getId(), course.getName(), course.getDescription(), course.getImage());
