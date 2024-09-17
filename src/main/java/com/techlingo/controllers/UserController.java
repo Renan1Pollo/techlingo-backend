@@ -23,9 +23,9 @@ public class UserController {
         return buildResponse(isUpdated, "User not found");
     }
 
-    @PutMapping("/{userId}/lifes/decrease")
-    public ResponseEntity<?> decreaseLifes(@PathVariable Long userId, @RequestParam int lifesToLose) {
-        boolean isUpdated = userService.decreaseLives(userId, lifesToLose);
+    @PutMapping("/{userId}/lives/update")
+    public ResponseEntity<?> updateUserLives(@PathVariable Long userId, @RequestParam Integer liveCount) {
+        boolean isUpdated = userService.decreaseLives(userId, liveCount);
         return buildResponse(isUpdated, "User not found");
     }
 

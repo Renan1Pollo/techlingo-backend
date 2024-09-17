@@ -63,7 +63,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
-        user.setLives(Math.max(user.getLives() - livesToLose, 0));
+        user.setLives(livesToLose);
         repository.save(user);
         return true;
     }
