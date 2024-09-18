@@ -1,6 +1,8 @@
 package com.techlingo.services;
 
 import com.techlingo.domain.user.User;
+import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.domain.user.UserUpdateStatus;
 import com.techlingo.dtos.auth.LoginRequestDTO;
 import com.techlingo.dtos.auth.RegisterRequestDTO;
 import com.techlingo.repositories.UserRepository;
@@ -55,43 +57,47 @@ public class UserService {
         return Optional.of(newUser);
     }
 
-    public Boolean updateLives(Long userId, Integer livesToLose) {
+    public UserUpdateStatus updateLives(Long userId, Integer livesToLose) {
         Optional<User> userOptional = findUserById(userId);
 
         if (userOptional.isEmpty()) {
-            return false;
+            return UserUpdateStatus.NOT_FOUND;
         }
 
         User user = userOptional.get();
         user.setLives(livesToLose);
         repository.save(user);
-        return true;
+        return UserUpdateStatus.SUCCESS;
     }
 
-    public Boolean increaseScore(Long userId, BigDecimal points) {
+    public UserUpdateStatus increaseScore(Long userId, BigDecimal points) {
         Optional<User> userOptional = findUserById(userId);
 
         if (userOptional.isEmpty()) {
-            return false;
+            return UserUpdateStatus.NOT_FOUND;
         }
 
         User user = userOptional.get();
         user.setScore(user.getScore().add(points));
         repository.save(user);
-        return true;
+        return UserUpdateStatus.SUCCESS;
     }
 
-    public Boolean updatePassword(Long id, String password) {
+    public UserPasswordUpdateStatus updatePassword(Long id, String oldPassword, String newPassword) {
         Optional<User> userOptional = findUserById(id);
 
         if (userOptional.isEmpty()) {
-            return false;
+            return UserPasswordUpdateStatus.USER_NOT_FOUND;
         }
 
         User user = userOptional.get();
-        user.setPassword(password);
-        repository.save(user);
-        return true;
+        if (user.getPassword().equals(oldPassword)) {
+            user.setPassword(newPassword);
+            repository.save(user);
+            return UserPasswordUpdateStatus.SUCCESS;
+        }
+
+        return UserPasswordUpdateStatus.INCORRECT_PASSWORD;
     }
 
     private void updateLivesBasedOnLastAccess(User user) {

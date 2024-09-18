@@ -1,6 +1,9 @@
 package com.techlingo.controllers;
 
+import com.techlingo.controllers.utils.ResponseHandler;
 import com.techlingo.domain.user.User;
+import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.domain.user.UserUpdateStatus;
 import com.techlingo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,30 +21,26 @@ public class UserController {
     private UserService userService;
 
     @PutMapping("/{userId}/password")
-    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String password) {
-        boolean isUpdated = userService.updatePassword(userId, password);
-        return buildResponse(isUpdated, "User not found");
+    public ResponseEntity<?> updatePassword(@PathVariable Long userId, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        UserPasswordUpdateStatus status = userService.updatePassword(userId, oldPassword, newPassword);
+        return ResponseHandler.createResponse(status);
     }
 
-    @PutMapping("/{userId}/lives/update")
+    @PutMapping("/{userId}/lives")
     public ResponseEntity<?> updateUserLives(@PathVariable Long userId, @RequestParam Integer liveCount) {
-        boolean isUpdated = userService.updateLives(userId, liveCount);
-        return buildResponse(isUpdated, "User not found");
+        UserUpdateStatus status = userService.updateLives(userId, liveCount);
+        return ResponseHandler.createResponse(status);
     }
 
-    @PutMapping("/{userId}/score/increase")
+    @PutMapping("/{userId}/score")
     public ResponseEntity<?> increaseScore(@PathVariable Long userId, @RequestParam BigDecimal points) {
-        boolean isUpdated = userService.increaseScore(userId, points);
-        return buildResponse(isUpdated, "User not found");
+        UserUpdateStatus status = userService.increaseScore(userId, points);
+        return ResponseHandler.createResponse(status);
     }
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
-    }
-
-    private ResponseEntity<?> buildResponse(boolean condition, String errorMessage) {
-        return condition ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 }
