@@ -1,6 +1,8 @@
 package com.techlingo.controllers.utils;
 
+import com.techlingo.domain.user.User;
 import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.domain.user.UserResponse;
 import com.techlingo.domain.user.UserUpdateStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ public class ResponseHandler {
         // Mapeamento para UserUpdateStatus
         userUpdateResponseMap.put(UserUpdateStatus.SUCCESS, () -> ResponseEntity.ok().build());
         userUpdateResponseMap.put(UserUpdateStatus.NOT_FOUND, () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
+        userUpdateResponseMap.put(UserUpdateStatus.ALREADY_EXISTS, () -> ResponseEntity.status(HttpStatus.CONFLICT).body("User already exists"));
 
         // Mapeamento para UserPasswordUpdateStatus
         userPasswordResponseMap.put(UserPasswordUpdateStatus.SUCCESS, () -> ResponseEntity.ok().build());
@@ -32,4 +35,19 @@ public class ResponseHandler {
     public static ResponseEntity<?> createResponse(UserPasswordUpdateStatus status) {
         return userPasswordResponseMap.getOrDefault(status, () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unknown status")).get();
     }
+
+    public static ResponseEntity<?> createResponse(UserResponse userResponse) {;
+        if (userResponse.getUserPasswordUpdateStatus() == UserPasswordUpdateStatus.SUCCESS) {
+            return ResponseEntity.ok(userResponse.getUser());
+        }
+
+        if (userResponse.getUserUpdateStatus() == UserUpdateStatus.SUCCESS) {
+            return ResponseEntity.ok(userResponse.getUser());
+        }
+
+        return userResponse.getUserPasswordUpdateStatus() != null
+                ?  (ResponseEntity<?>) createResponse(userResponse.getUserPasswordUpdateStatus())
+                : (ResponseEntity<?>) createResponse(userResponse.getUserUpdateStatus());
+    }
+
 }
