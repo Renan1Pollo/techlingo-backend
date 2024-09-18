@@ -55,7 +55,7 @@ public class UserService {
         return Optional.of(newUser);
     }
 
-    public Boolean decreaseLives(Long userId, Integer livesToLose) {
+    public Boolean updateLives(Long userId, Integer livesToLose) {
         Optional<User> userOptional = findUserById(userId);
 
         if (userOptional.isEmpty()) {
