@@ -1,6 +1,10 @@
 package com.techlingo.controllers;
 
+import com.techlingo.controllers.utils.ResponseHandler;
 import com.techlingo.domain.user.User;
+import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.domain.user.UserResponse;
+import com.techlingo.domain.user.UserUpdateStatus;
 import com.techlingo.dtos.auth.LoginRequestDTO;
 import com.techlingo.dtos.auth.RegisterRequestDTO;
 import com.techlingo.services.UserService;
@@ -25,19 +29,19 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequestDTO) {
-        Optional<User> userOptional = this.userService.login(loginRequestDTO);
-        return userOptional.isPresent() ? new ResponseEntity<>(userOptional.get(), HttpStatus.OK) : ResponseEntity.status(404).body("User not found");
+        UserResponse userResponse = this.userService.login(loginRequestDTO);
+        return ResponseHandler.createResponse(userResponse);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        Optional<User> userOptional = userService.createUser(registerRequestDTO);
-        return userOptional.isPresent() ? new ResponseEntity<>(userOptional.get(), HttpStatus.CREATED) : ResponseEntity.status(400).body("User already exists");
+        UserResponse userResponse = userService.createUser(registerRequestDTO);
+        return ResponseHandler.createResponse(userResponse);
     }
 
     @PostMapping("/register/admin")
     public ResponseEntity<?> createAdmin(@RequestBody RegisterRequestDTO registerRequestDTO) {
-        Optional<User> userOptional = userService.createAdmin(registerRequestDTO);
-        return userOptional.isPresent() ? new ResponseEntity<>(userOptional.get(), HttpStatus.CREATED) : ResponseEntity.status(400).body("Admin already exists");
+        UserResponse userResponse = userService.createAdmin(registerRequestDTO);
+        return ResponseHandler.createResponse(userResponse);
     }
 }

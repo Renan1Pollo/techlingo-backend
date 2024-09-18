@@ -2,6 +2,7 @@ package com.techlingo.services;
 
 import com.techlingo.domain.user.User;
 import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.domain.user.UserResponse;
 import com.techlingo.domain.user.UserUpdateStatus;
 import com.techlingo.dtos.auth.LoginRequestDTO;
 import com.techlingo.dtos.auth.RegisterRequestDTO;
@@ -21,40 +22,44 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public Optional<User> login(LoginRequestDTO data) {
+    public UserResponse login(LoginRequestDTO data) {
         Optional<User> userOptional = this.repository.findUserByEmail(data.email());
 
-        if (userOptional.isPresent() && userOptional.get().getPassword().equals(data.password())) {
-            User user = userOptional.get();
-            updateLivesBasedOnLastAccess(user);
-            return Optional.of(user);
+        if (userOptional.isEmpty()) {
+            return new UserResponse(UserPasswordUpdateStatus.USER_NOT_FOUND, null);
         }
 
-        return Optional.empty();
+        User user = userOptional.get();
+        if (user.getPassword().equals(data.password())) {
+            updateLivesBasedOnLastAccess(user);
+            return new UserResponse(UserPasswordUpdateStatus.SUCCESS, user);
+        }
+
+        return new UserResponse(UserPasswordUpdateStatus.INCORRECT_PASSWORD, null);
     }
 
-    public Optional<User> createUser(RegisterRequestDTO data) {
+    public UserResponse createUser(RegisterRequestDTO data) {
         Optional<User> userOptional = this.repository.findUserByEmail(data.email());
 
         if (userOptional.isPresent()) {
-            return Optional.empty();
+            return new UserResponse(UserUpdateStatus.ALREADY_EXISTS, null);
         }
 
         User newUser = new User(data, false);
         repository.save(newUser);
-        return Optional.of(newUser);
+        return new UserResponse(UserUpdateStatus.SUCCESS, newUser);
     }
 
-    public Optional<User> createAdmin(RegisterRequestDTO data) {
+    public UserResponse createAdmin(RegisterRequestDTO data) {
         Optional<User> userOptional = this.repository.findUserByEmail(data.email());
 
         if (userOptional.isPresent()) {
-            return Optional.empty();
+            return new UserResponse(UserUpdateStatus.ALREADY_EXISTS, null);
         }
 
-        User newUser = new User(data, true);
-        repository.save(newUser);
-        return Optional.of(newUser);
+        User newAdmin = new User(data, true);
+        repository.save(newAdmin);
+        return new UserResponse(UserUpdateStatus.SUCCESS, newAdmin);
     }
 
     public UserUpdateStatus updateLives(Long userId, Integer livesToLose) {
