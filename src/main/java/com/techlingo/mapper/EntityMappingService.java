@@ -1,6 +1,7 @@
 package com.techlingo.mapper;
 
 import com.techlingo.domain.answer.Answer;
+import com.techlingo.domain.content.Content;
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.enrollment.Enrollment;
 import com.techlingo.domain.lesson.Lesson;
@@ -8,6 +9,8 @@ import com.techlingo.domain.question.Question;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.answer.AnswerDetailsDTO;
 import com.techlingo.dtos.answer.AnswerResponseDTO;
+import com.techlingo.dtos.content.ContentDetailsDTO;
+import com.techlingo.dtos.content.ContentResponseDTO;
 import com.techlingo.dtos.course.CourseDetailsDTO;
 import com.techlingo.dtos.course.CourseResponseDTO;
 import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
@@ -51,7 +54,16 @@ public class EntityMappingService {
                 .map(this::mapToQuestionResponseDTO)
                 .collect(Collectors.toList());
 
-        return new LessonResponseDTO(lesson.getId(), lesson.getTitle(), lesson.getDescription(), lesson.getPoints(), lesson.getIndex(), questionResponseDTOList);
+        List<ContentResponseDTO> contentResponseDTOList = lesson.getContents().stream()
+                .map(this::mapToContentResponseDTO)
+                .collect(Collectors.toList());
+
+        return new LessonResponseDTO(lesson.getId(), lesson.getTitle(), lesson.getDescription(),
+                   lesson.getPoints(), lesson.getIndex(), contentResponseDTOList, questionResponseDTOList);
+    }
+
+    public ContentResponseDTO mapToContentResponseDTO(Content content) {
+        return new ContentResponseDTO(content.getId(), content.getTitle(), content.getText(), content.getImage(), content.getIndex());
     }
 
     public QuestionResponseDTO mapToQuestionResponseDTO(Question question) {
@@ -82,6 +94,10 @@ public class EntityMappingService {
 
     public LessonDetailsDTO mapToLessonDetailsDTO(Lesson lesson) {
         return new LessonDetailsDTO(lesson.getId(), this.mapToUnitDetailsDTO(lesson.getUnit()), lesson.getTitle(), lesson.getDescription(), lesson.getPoints(), lesson.getIndex());
+    }
+
+    public ContentDetailsDTO mapToContentDetailsDTO(Content content) {
+        return new ContentDetailsDTO(content.getId(), mapToLessonDetailsDTO(content.getLesson()), content.getTitle(), content.getTitle(), content.getImage(), content.getIndex());
     }
 
     public QuestionDetailsDTO mapToQuestionDetailsDTO(Question question) {

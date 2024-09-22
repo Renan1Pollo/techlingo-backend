@@ -1,5 +1,6 @@
 package com.techlingo.domain.lesson;
 
+import com.techlingo.domain.content.Content;
 import com.techlingo.domain.question.Question;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.lesson.LessonDTO;
@@ -39,6 +40,9 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = false)
     private List<Question> questions;
+
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, orphanRemoval = false)
+    private List<Content> contents;
 
     public Lesson(LessonDTO data) {
         this.title = data.title();
