@@ -72,8 +72,10 @@ public class ContentService {
         return this.repository.findAll();
     }
 
-    public Content findContentById(Long id) throws Exception {
-        return this.repository.findContentById(id).orElseThrow(() -> new Exception("Conteudo não encontrado"));
+    public Optional<Content> findContentById(Long id) throws Exception {
+        Optional<Content> contentOptional = this.repository.findContentById(id);
+
+        return contentOptional;
     }
 
 }

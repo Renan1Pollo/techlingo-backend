@@ -97,7 +97,7 @@ public class EntityMappingService {
     }
 
     public ContentDetailsDTO mapToContentDetailsDTO(Content content) {
-        return new ContentDetailsDTO(content.getId(), mapToLessonDetailsDTO(content.getLesson()), content.getTitle(), content.getTitle(), content.getImage(), content.getIndex());
+        return new ContentDetailsDTO(content.getId(), mapToLessonDetailsDTO(content.getLesson()), content.getTitle(), content.getText(), content.getImage(), content.getIndex());
     }
 
     public QuestionDetailsDTO mapToQuestionDetailsDTO(Question question) {
