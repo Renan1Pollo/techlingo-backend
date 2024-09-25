@@ -1,6 +1,5 @@
 package com.techlingo.controllers.utils;
 
-import com.techlingo.domain.user.User;
 import com.techlingo.domain.user.UserPasswordUpdateStatus;
 import com.techlingo.domain.user.UserResponse;
 import com.techlingo.domain.user.UserUpdateStatus;
@@ -36,7 +35,8 @@ public class ResponseHandler {
         return userPasswordResponseMap.getOrDefault(status, () -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Unknown status")).get();
     }
 
-    public static ResponseEntity<?> createResponse(UserResponse userResponse) {;
+    public static ResponseEntity<?> createResponse(UserResponse userResponse) {
+        ;
         if (userResponse.getUserPasswordUpdateStatus() == UserPasswordUpdateStatus.SUCCESS) {
             return ResponseEntity.ok(userResponse.getUser());
         }
@@ -46,7 +46,7 @@ public class ResponseHandler {
         }
 
         return userResponse.getUserPasswordUpdateStatus() != null
-                ?  (ResponseEntity<?>) createResponse(userResponse.getUserPasswordUpdateStatus())
+                ? (ResponseEntity<?>) createResponse(userResponse.getUserPasswordUpdateStatus())
                 : (ResponseEntity<?>) createResponse(userResponse.getUserUpdateStatus());
     }
 

@@ -9,6 +9,7 @@ import com.techlingo.repositories.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,8 +62,13 @@ public class EnrollmentService {
         return repository.findEnrollmentByUserId(userId);
     }
 
+    public Optional<Enrollment> findEnrollmentByUserAndCourse(Long userId, Long courseId) {
+        return repository.findEnrollmentByUserIdAndCourseId(userId, courseId);
+    }
+
     public Optional<Enrollment> findEnrollmentById(Long id) {
         return repository.findEnrollmentById(id);
     }
+
 
 }

@@ -1,8 +1,10 @@
 package com.techlingo.controllers;
 
+import com.techlingo.domain.enrollment.Enrollment;
 import com.techlingo.dtos.enrollment.EnrollmentDTO;
 import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
 import com.techlingo.dtos.enrollment.EnrollmentResponseDTO;
+import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.EnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -18,6 +21,9 @@ public class EnrollmentController {
 
     @Autowired
     private EnrollmentService enrollmentService;
+
+    @Autowired
+    private EntityMappingService entityMappingService;
 
     @PostMapping
     public ResponseEntity<Void> registerForCourse(@RequestBody EnrollmentDTO enrollmentDTO) {
@@ -41,6 +47,18 @@ public class EnrollmentController {
     public ResponseEntity<List<EnrollmentResponseDTO>> getEnrollmentsByUserId(@PathVariable Long userId) {
         List<EnrollmentResponseDTO> userEnrollments = enrollmentService.getEnrollmentsByUserId(userId);
         return ResponseEntity.ok(userEnrollments);
+    }
+
+    @GetMapping("/byUserAndCourse")
+    public ResponseEntity<?> getEnrollmentByUserAndCourse(@RequestParam Long userId, @RequestParam Long courseId) {
+        Optional<Enrollment> enrollmentOptional = enrollmentService.findEnrollmentByUserAndCourse(userId, courseId);
+
+        if (enrollmentOptional.isPresent()) {
+            EnrollmentResponseDTO enrollment = entityMappingService.mapToEnrollmentResponseDTO(enrollmentOptional.get());
+            return ResponseEntity.ok(enrollment);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Enrollment not found");
     }
 
 }
