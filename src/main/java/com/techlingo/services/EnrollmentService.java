@@ -1,5 +1,6 @@
 package com.techlingo.services;
 
+import com.techlingo.domain.course.Course;
 import com.techlingo.domain.enrollment.Enrollment;
 import com.techlingo.dtos.enrollment.EnrollmentDTO;
 import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
@@ -9,7 +10,6 @@ import com.techlingo.repositories.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,8 +29,11 @@ public class EnrollmentService {
     @Autowired
     private EntityMappingService entityMappingService;
 
-    public Enrollment registerForCourse(EnrollmentDTO enrollmentDTO) {
+    public Enrollment registerForCourse(EnrollmentDTO enrollmentDTO) throws Exception {
+        Course course = courseService.findCourseById(enrollmentDTO.course().getId());
+
         Enrollment enrollment = new Enrollment(enrollmentDTO);
+        enrollment.setCourse(course);
         return repository.save(enrollment);
     }
 

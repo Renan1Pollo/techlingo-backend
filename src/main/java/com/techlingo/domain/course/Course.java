@@ -5,6 +5,7 @@ import com.techlingo.dtos.course.CourseDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "courses")
@@ -30,7 +31,7 @@ public class Course {
     private String image;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = false)
-    private List<Unit> units;
+    private List<Unit> units  = new ArrayList<>();;
 
     public Course(CourseDTO data) {
         this.name = data.name();
