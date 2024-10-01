@@ -38,7 +38,7 @@ public class User {
     @Column(name = "score", nullable = false)
     private BigDecimal score;
 
-    @Column(name = "lifes", nullable = false)
+    @Column(name = "lives", nullable = false)
     private Integer lives;
 
     @Column(name = "user_role", nullable = false)

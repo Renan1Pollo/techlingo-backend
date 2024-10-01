@@ -35,11 +35,15 @@ public class Enrollment {
     @Column(name = "current_lesson", nullable = false)
     private int currentLesson;
 
+    @Column(name = "current_unit", nullable = false)
+    private int currentUnit;
+
     public Enrollment(EnrollmentDTO data) {
         this.user = data.user();
         this.course = data.course();
         this.enrollmentDate = LocalDateTime.now();
         this.currentLesson = 0;
+        this.currentUnit = 0;
     }
 
 }
