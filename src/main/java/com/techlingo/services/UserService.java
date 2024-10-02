@@ -75,17 +75,17 @@ public class UserService {
         return UserUpdateStatus.SUCCESS;
     }
 
-    public UserUpdateStatus increaseScore(Long userId, BigDecimal points) {
+    public UserResponse increaseScore(Long userId, BigDecimal points) {
         Optional<User> userOptional = findUserById(userId);
 
         if (userOptional.isEmpty()) {
-            return UserUpdateStatus.NOT_FOUND;
+            return new UserResponse(UserUpdateStatus.NOT_FOUND, null);
         }
 
         User user = userOptional.get();
         user.setScore(user.getScore().add(points));
         repository.save(user);
-        return UserUpdateStatus.SUCCESS;
+        return new UserResponse(UserUpdateStatus.SUCCESS, user);
     }
 
     public UserPasswordUpdateStatus updatePassword(Long id, String oldPassword, String newPassword) {

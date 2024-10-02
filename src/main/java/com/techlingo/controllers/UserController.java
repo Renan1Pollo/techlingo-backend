@@ -3,6 +3,7 @@ package com.techlingo.controllers;
 import com.techlingo.controllers.utils.ResponseHandler;
 import com.techlingo.domain.user.User;
 import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.domain.user.UserResponse;
 import com.techlingo.domain.user.UserUpdateStatus;
 import com.techlingo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class UserController {
 
     @PutMapping("/{userId}/score")
     public ResponseEntity<?> increaseScore(@PathVariable Long userId, @RequestParam BigDecimal points) {
-        UserUpdateStatus status = userService.increaseScore(userId, points);
+        UserResponse status = userService.increaseScore(userId, points);
         return ResponseHandler.createResponse(status);
     }
 
