@@ -31,7 +31,7 @@ CREATE TABLE `answers` (
   PRIMARY KEY (`id`),
   KEY `FK3erw1a3t0r78st8ty27x6v3g1` (`question_id`),
   CONSTRAINT `FK3erw1a3t0r78st8ty27x6v3g1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `answers` (
 
 LOCK TABLES `answers` WRITE;
 /*!40000 ALTER TABLE `answers` DISABLE KEYS */;
+INSERT INTO `answers` VALUES (1,_binary '','Python foi criado no final da década de 1980 por Guido van Rossum','Guido van Rossum',1),(2,_binary '\0','Python foi criado no final da década de 1980 por Guido van Rossum','Linus Torvalds',1),(3,_binary '\0','Python foi criado no final da década de 1980 por Guido van Rossum','James Gosling',1),(4,_binary '','Python é uma linguagem de programação de alto nível, conhecida por sua sintaxe simples e intuitiva, que facilita o aprendizado para iniciantes.','Linguagem de programação',2),(5,_binary '\0','Python é uma linguagem de programação de alto nível, conhecida por sua sintaxe simples e intuitiva, que facilita o aprendizado para iniciantes.','FrameWork Agil',2),(6,_binary '\0','Python é uma linguagem de programação de alto nível, conhecida por sua sintaxe simples e intuitiva, que facilita o aprendizado para iniciantes.','Uma ferramenta de Design',2),(7,_binary '\0','Python é amplamente utilizado em várias áreas, incluindo desenvolvimento web, análise de dados, inteligência artificial, aprendizado de máquina, automação de tarefas, e até no desenvolvimento de jogos.','Somente no desenvolvimento de aplicativos móveis.',3),(8,_binary '\0','Python é amplamente utilizado em várias áreas, incluindo desenvolvimento web, análise de dados, inteligência artificial, aprendizado de máquina, automação de tarefas, e até no desenvolvimento de jogos.','Apenas para criar sistemas operacionais.',3),(9,_binary '','Python é amplamente utilizado em várias áreas, incluindo desenvolvimento web, análise de dados, inteligência artificial, aprendizado de máquina, automação de tarefas, e até no desenvolvimento de jogos.','Desenvolvimento web, Análise de dados e IA.',3);
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -60,7 +61,7 @@ CREATE TABLE `contents` (
   PRIMARY KEY (`id`),
   KEY `FKik5hu6owv9demykgetnrmjf4c` (`lesson_id`),
   CONSTRAINT `FKik5hu6owv9demykgetnrmjf4c` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +70,7 @@ CREATE TABLE `contents` (
 
 LOCK TABLES `contents` WRITE;
 /*!40000 ALTER TABLE `contents` DISABLE KEYS */;
-INSERT INTO `contents` VALUES (1,NULL,1,'Python foi criado no final da década de 1980 por Guido van Rossum, com o objetivo de ser uma linguagem de programação de fácil leitura e escrita. A primeira versão foi lançada em 1991. Desde então, Python passou por várias atualizações, cada uma trazendo melhorias significativas em termos de recursos, performance e usabilidade. O nome “Python” foi inspirado no grupo de comédia britânico Monty Python, refletindo o desejo de Van Rossum de que a linguagem fosse divertida de usar.','História do Python',1),(2,NULL,2,'Python é uma linguagem de programação de alto nível, conhecida por sua sintaxe simples e intuitiva, que facilita o aprendizado para iniciantes. Suas características incluem tipagem dinâmica, o que significa que você não precisa declarar o tipo de uma variável antes de usá-la, e um extenso conjunto de bibliotecas que permitem realizar diversas tarefas sem precisar escrever muito código do zero. Isso torna Python uma excelente escolha para prototipagem rápida e desenvolvimento ágil.','Principais Vantagens da Linguagem Python',1),(3,NULL,3,'Python é amplamente utilizado em várias áreas, incluindo desenvolvimento web, análise de dados, inteligência artificial, aprendizado de máquina, automação de tarefas, e até no desenvolvimento de jogos. Frameworks como Django e Flask facilitam a criação de aplicativos web, enquanto bibliotecas como Pandas e NumPy são essenciais para manipulação e análise de dados.','Aplicações Diversificadas do Python no Mercado',1);
+INSERT INTO `contents` VALUES (1,NULL,1,'Python foi criado no final da década de 1980 por Guido van Rossum, com o objetivo de ser uma linguagem de programação de fácil leitura e escrita. A primeira versão foi lançada em 1991. Desde então, Python passou por várias atualizações, cada uma trazendo melhorias significativas em termos de recursos, performance e usabilidade. O nome “Python” foi inspirado no grupo de comédia britânico Monty Python, refletindo o desejo de Van Rossum de que a linguagem fosse divertida de usar.','História do Python',1),(2,NULL,2,'Python é uma linguagem de programação de alto nível, conhecida por sua sintaxe simples e intuitiva, que facilita o aprendizado para iniciantes. Suas características incluem tipagem dinâmica, o que significa que você não precisa declarar o tipo de uma variável antes de usá-la, e um extenso conjunto de bibliotecas que permitem realizar diversas tarefas sem precisar escrever muito código do zero. Isso torna Python uma excelente escolha para prototipagem rápida e desenvolvimento ágil.','Principais Vantagens da Linguagem Python',1),(3,NULL,3,'Python é amplamente utilizado em várias áreas, incluindo desenvolvimento web, análise de dados, inteligência artificial, aprendizado de máquina, automação de tarefas, e até no desenvolvimento de jogos. Frameworks como Django e Flask facilitam a criação de aplicativos web, enquanto bibliotecas como Pandas e NumPy são essenciais para manipulação e análise de dados.','Aplicações Diversificadas do Python no Mercado',1),(4,NULL,1,'Um algoritmo é uma lista de instruções ou um conjunto de passos que você segue para resolver um problema ou realizar uma tarefa. Pense em um algoritmo como uma receita de cozinha: você tem que seguir os passos em uma ordem específica para que o resultado seja como esperado. Na programação, usamos algoritmos para fazer o computador resolver problemas de forma organizada e eficiente. Um exemplo simples de algoritmo seria: \"1. Pegue um copo, 2. Abra a torneira, 3. Encha o copo de água.\" Se você seguir esses passos na ordem certa, vai conseguir um copo cheio de água. Assim funciona um algoritmo!','Entendendo Algoritmos',2),(5,NULL,2,'Na programação, muitas vezes precisamos que o computador faça algo só em certas condições. Para isso, usamos o comando \"se\" (ou if, em inglês). O comando \"se\" funciona como na vida real: por exemplo, \"se estiver chovendo, pegue um guarda-chuva\". O computador só executa uma ação se a condição que você definir for verdadeira. Vamos dizer que você está programando um jogo e quer que o personagem só pule se o jogador apertar a barra de espaço. Nesse caso, você diria para o computador: \"se a barra de espaço for pressionada, faça o personagem pular\". Assim, o computador só faz o que você mandar se a condição do \"se\" for atendida.','Tomando Decisões com \"Se\"',2),(6,NULL,3,'Na programação, muitas vezes precisamos repetir uma ação várias vezes. É aqui que entra o comando \"enquanto\" (ou while, em inglês). Esse comando diz ao computador para continuar fazendo algo \"enquanto\" uma certa condição for verdadeira. Imagine que você está programando um robô para colocar maçãs em uma cesta. Você diria: \"enquanto houver maçãs na mesa, continue colocando maçãs na cesta\". O robô vai continuar fazendo isso até que não reste mais nenhuma maçã. Da mesma forma, o computador continua repetindo as instruções até que a condição definida pare de ser verdadeira.','Repetindo Tarefas com \"Enquanto\"',2);
 /*!40000 ALTER TABLE `contents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -190,7 +191,7 @@ CREATE TABLE `lessons` (
 
 LOCK TABLES `lessons` WRITE;
 /*!40000 ALTER TABLE `lessons` DISABLE KEYS */;
-INSERT INTO `lessons` VALUES (1,1,'Python: Uma Introdução Simples e Versátil','Aqui iremos aprender um pouco mais sobre o que é o Python e como funciona.',100,1),(2,1,'Primeiros passos com Python','Instalando o ambiente e escrevendo seu primeiro programa',100,2),(3,1,'Variáveis e Tipos de Dados: Armazenando informações','Aqui iremos aprender a definir variáveis e os tipos de dados no python',100,3),(4,1,'Operadores aritméticos e lógicos: Realizando cálculos e comparações','Aqui iremos aprender os operadores aritméticos e lógicos ',100,4),(5,1,' Estruturas de controle: Tomando decisões e repetindo ações','Aqui iremos aprender a controlar o fluxo de execução de um programa.',100,5);
+INSERT INTO `lessons` VALUES (1,1,'Python: Uma Introdução Simples e Versátil','Aqui iremos aprender um pouco mais sobre o que é o Python e como funciona.',100,1),(2,1,'Pensando como um Computador','Aprendendo fundamentos da Lógica de Programação',100,2),(3,1,'Variáveis e Tipos de Dados: Armazenando informações','Aqui iremos aprender a definir variáveis e os tipos de dados no python',100,3),(4,1,'Operadores aritméticos e lógicos: Realizando cálculos e comparações','Aqui iremos aprender os operadores aritméticos e lógicos ',100,4),(5,1,' Estruturas de controle: Tomando decisões e repetindo ações','Aqui iremos aprender a controlar o fluxo de execução de um programa.',100,5);
 /*!40000 ALTER TABLE `lessons` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -280,7 +281,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'2024-10-01 16:12:57.839502','renansk18@outlook.com','2024-10-02 20:27:53.706119',5,'Renan Pollo','renan123',0.00,'USER');
+INSERT INTO `users` VALUES (1,'2024-10-01 16:12:57.839502','renansk18@outlook.com','2024-10-02 22:37:14.885570',1,'Renan Pollo','renan123',400.00,'USER');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -293,4 +294,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-02 20:35:52
+-- Dump completed on 2024-10-03 15:06:18
