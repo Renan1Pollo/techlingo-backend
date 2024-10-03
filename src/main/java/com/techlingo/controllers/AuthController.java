@@ -1,23 +1,17 @@
 package com.techlingo.controllers;
 
-import com.techlingo.controllers.utils.ResponseHandler;
-import com.techlingo.domain.user.User;
-import com.techlingo.domain.user.UserPasswordUpdateStatus;
+import com.techlingo.utils.ResponseHandler;
 import com.techlingo.domain.user.UserResponse;
-import com.techlingo.domain.user.UserUpdateStatus;
 import com.techlingo.dtos.auth.LoginRequestDTO;
 import com.techlingo.dtos.auth.RegisterRequestDTO;
 import com.techlingo.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")

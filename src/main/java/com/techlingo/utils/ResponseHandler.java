@@ -1,4 +1,4 @@
-package com.techlingo.controllers.utils;
+package com.techlingo.utils;
 
 import com.techlingo.domain.user.UserPasswordUpdateStatus;
 import com.techlingo.domain.user.UserResponse;
