@@ -62,17 +62,17 @@ public class UserService {
         return new UserResponse(UserUpdateStatus.SUCCESS, newAdmin);
     }
 
-    public UserUpdateStatus updateLives(Long userId, Integer livesToLose) {
+    public UserResponse updateLives(Long userId, Integer livesToLose) {
         Optional<User> userOptional = findUserById(userId);
 
         if (userOptional.isEmpty()) {
-            return UserUpdateStatus.NOT_FOUND;
+            return new UserResponse(UserUpdateStatus.NOT_FOUND, null);
         }
 
         User user = userOptional.get();
         user.setLives(livesToLose);
         repository.save(user);
-        return UserUpdateStatus.SUCCESS;
+        return new UserResponse(UserUpdateStatus.SUCCESS, user);
     }
 
     public UserResponse increaseScore(Long userId, BigDecimal points) {

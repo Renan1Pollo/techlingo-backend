@@ -28,7 +28,7 @@ public class UserController {
 
     @PutMapping("/{userId}/lives")
     public ResponseEntity<?> updateUserLives(@PathVariable Long userId, @RequestParam Integer liveCount) {
-        UserUpdateStatus status = userService.updateLives(userId, liveCount);
+        UserResponse status = userService.updateLives(userId, liveCount);
         return ResponseHandler.createResponse(status);
     }
 

@@ -7,11 +7,14 @@ import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
 import com.techlingo.dtos.enrollment.EnrollmentResponseDTO;
 import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.repositories.EnrollmentRepository;
+import com.techlingo.utils.ReportUtils;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +38,17 @@ public class EnrollmentService {
         Enrollment enrollment = new Enrollment(enrollmentDTO);
         enrollment.setCourse(course);
         return repository.save(enrollment);
+    }
+
+    public byte[] generateUnitConclusionReport(){
+        Map<String, Object> parametros = new HashMap<>();
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        File file = new File(Objects.requireNonNull(classLoader.getResource("reports/Unit_Completetion_Certificate.jrxml")).getFile());
+
+        byte[] bytes = ReportUtils.generatePdfReport(file.getAbsolutePath(), parametros);
+
+        return bytes;
     }
 
     public List<EnrollmentResponseDTO> getAllEnrollmentResponses() {

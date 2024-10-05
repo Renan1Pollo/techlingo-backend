@@ -6,6 +6,7 @@ import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
 import com.techlingo.dtos.enrollment.EnrollmentResponseDTO;
 import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.EnrollmentService;
+import com.techlingo.utils.ReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,11 @@ public class EnrollmentController {
     public ResponseEntity<List<EnrollmentResponseDTO>> getAllEnrollmentResponses() {
         List<EnrollmentResponseDTO> enrollments = enrollmentService.getAllEnrollmentResponses();
         return ResponseEntity.ok(enrollments);
+    }
+
+    @GetMapping("/generate-report")
+    public ResponseEntity<byte[]> generateUnitConclusionReport() {
+        return ReportUtils.buildReportResponse(enrollmentService.generateUnitConclusionReport());
     }
 
     @GetMapping("/details")
