@@ -2,6 +2,7 @@ package com.techlingo.services;
 
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.enrollment.Enrollment;
+import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.enrollment.EnrollmentDTO;
 import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
 import com.techlingo.dtos.enrollment.EnrollmentResponseDTO;
@@ -27,6 +28,9 @@ public class EnrollmentService {
     private CourseService courseService;
 
     @Autowired
+    private UnitService unitService;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -40,15 +44,34 @@ public class EnrollmentService {
         return repository.save(enrollment);
     }
 
-    public byte[] generateUnitConclusionReport(){
-        Map<String, Object> parametros = new HashMap<>();
+    public Enrollment updateEnrollment(EnrollmentResponseDTO enrollmentResponseDTO, Long unitId) throws Exception {
+        Optional<Enrollment> enrollmentOptional = findEnrollmentById(enrollmentResponseDTO.id());
+
+        if (enrollmentOptional.isEmpty()) {
+//            return Optional.of();
+        }
+
+        Enrollment enrollment = enrollmentOptional.get();
+        enrollment.setCurrentUnit(enrollment.getCurrentLesson() + 1);
+        enrollment.setCurrentLesson(enrollment.getCurrentUnit());
+
+        return repository.save(enrollment);
+    }
+
+    public byte[] generateUnitConclusionReport(EnrollmentResponseDTO enrollmentResponseDTO, Long unitId) throws Exception {
+        Map<String, Object> reportParams = new HashMap<>();
         ClassLoader classLoader = getClass().getClassLoader();
 
-        File file = new File(Objects.requireNonNull(classLoader.getResource("reports/Unit_Completetion_Certificate.jrxml")).getFile());
+        File reportFile = new File(Objects.requireNonNull(classLoader.getResource("reports/Unit_Completetion_Certificate.jrxml")).getFile());
 
-        byte[] bytes = ReportUtils.generatePdfReport(file.getAbsolutePath(), parametros);
+        Enrollment enrollment = findEnrollmentById(enrollmentResponseDTO.id()).orElseThrow(() -> new IllegalArgumentException("Enrollment not found"));
+        Unit unit = unitService.findUnitById(unitId);
 
-        return bytes;
+        reportParams.put("userName", enrollment.getUser().getName());
+        reportParams.put("courseName", enrollment.getCourse().getName());
+        reportParams.put("unitTitle", unit.getTitle());
+
+        return ReportUtils.generatePdfReport(reportFile.getAbsolutePath(), reportParams);
     }
 
     public List<EnrollmentResponseDTO> getAllEnrollmentResponses() {

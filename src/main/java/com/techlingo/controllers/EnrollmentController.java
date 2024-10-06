@@ -31,15 +31,26 @@ public class EnrollmentController {
         return ResponseEntity.ok(entityMappingService.mapToEnrollmentResponseDTO(enrollment));
     }
 
+    @PutMapping("/enrollments/{unitId}")
+    public ResponseEntity<?> updateEnrollment(@RequestBody EnrollmentResponseDTO enrollmentResponseDTO, @PathVariable Long unitId) throws Exception {
+        Enrollment enrollment = enrollmentService.updateEnrollment(enrollmentResponseDTO, unitId);
+        return ResponseEntity.ok(entityMappingService.mapToEnrollmentResponseDTO(enrollment));
+    }
+
     @GetMapping
     public ResponseEntity<List<EnrollmentResponseDTO>> getAllEnrollmentResponses() {
         List<EnrollmentResponseDTO> enrollments = enrollmentService.getAllEnrollmentResponses();
         return ResponseEntity.ok(enrollments);
     }
 
-    @GetMapping("/generate-report")
-    public ResponseEntity<byte[]> generateUnitConclusionReport() {
-        return ReportUtils.buildReportResponse(enrollmentService.generateUnitConclusionReport());
+    @PostMapping("/generate-report/{unitId}")
+    public ResponseEntity<byte[]> generateUnitConclusionReport(@RequestBody EnrollmentResponseDTO enrollmentResponseDTO, @PathVariable Long unitId) {
+        try {
+            return ReportUtils.buildReportResponse(enrollmentService.generateUnitConclusionReport(enrollmentResponseDTO, unitId));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/details")

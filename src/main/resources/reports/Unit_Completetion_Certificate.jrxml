@@ -12,6 +12,9 @@
 			<style backcolor="#E6DAC3"/>
 		</conditionalStyle>
 	</style>
+	<parameter name="userName" class="java.lang.String"/>
+	<parameter name="unitTitle" class="java.lang.String"/>
+	<parameter name="courseName" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -19,49 +22,64 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="75" splitType="Stretch">
+		<band height="90" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement style="Title" x="202" y="0" width="355" height="50" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
+				<reportElement style="Title" x="203" y="0" width="355" height="50" uuid="bc1ce1da-8232-46ea-be55-cec4abb986dd"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="30"/>
 				</textElement>
 				<text><![CDATA[Certificado de conclusão]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" x="307" y="50" width="147" height="22" forecolor="#030200" uuid="f6a78448-8260-4445-a9e0-e3fb53b080d9"/>
-				<textElement>
-					<font fontName="Times New Roman"/>
+			<textField>
+				<reportElement x="286" y="50" width="188" height="25" uuid="77bed765-eccd-49f6-a989-64124d9e9d09">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="18"/>
 				</textElement>
-				<text><![CDATA[Renan Pollo Benelli]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="45" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<staticText>
-				<reportElement x="199" y="0" width="360" height="42" uuid="8240065e-64b6-4170-b5d9-6341598e7b35">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+			<textField>
+				<reportElement x="180" y="0" width="400" height="40" uuid="722912db-3bd3-4871-85aa-0285bb4de3ed">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="10"/>
+				<textElement>
+					<font size="12"/>
 				</textElement>
-				<text><![CDATA[Certificamos que Renan Pollo Benelli concluiu com aproveitamento o curso online "Python: começando com a linguagem" de carga horária estimada em 12 horas, realizando 87 de 87 atividades, no período de 04/05/2023 a 25/07/2023.]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["Certificamos que " + $P{userName} +" concluiu com aproveitamento o curso online: " + $P{courseName} + ": " + $P{unitTitle} +  ", realizando 87 de 87 atividades."]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="68" splitType="Stretch"/>
+		<band splitType="Stretch"/>
 	</detail>
 	<columnFooter>
-		<band height="2" splitType="Stretch"/>
+		<band height="40" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="-1" width="161" height="41" forecolor="#885BDE" uuid="15d0674e-fad7-4fd0-8276-875054fcad24"/>
+				<textElement>
+					<font size="30"/>
+				</textElement>
+				<text><![CDATA[TechLingo]]></text>
+			</staticText>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band splitType="Stretch"/>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
 	</pageFooter>
 	<summary>
 		<band splitType="Stretch"/>

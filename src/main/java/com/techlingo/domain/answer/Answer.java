@@ -25,7 +25,7 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(name = "feedback_text", nullable = false)
+    @Column(name = "feedback_text", nullable = false, length = 500)
     private String feedbackText;
 
     @Column(name = "correct", nullable = false)

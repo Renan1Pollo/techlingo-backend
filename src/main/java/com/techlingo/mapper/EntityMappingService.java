@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 public class EntityMappingService {
 
     public EnrollmentResponseDTO mapToEnrollmentResponseDTO(Enrollment enrollment) {
-        return new EnrollmentResponseDTO(enrollment.getId(), enrollment.getUser(), this.mapToCourseResponseDTO(enrollment.getCourse()), enrollment.getEnrollmentDate(), enrollment.getCurrentLesson());
+        return new EnrollmentResponseDTO(enrollment.getId(), enrollment.getUser(), this.mapToCourseResponseDTO(enrollment.getCourse()), enrollment.getEnrollmentDate(), enrollment.getCurrentLesson(), enrollment.getCurrentUnit());
     }
 
     public CourseResponseDTO mapToCourseResponseDTO(Course course) {
@@ -81,7 +81,7 @@ public class EntityMappingService {
     // Map To Details DTO
 
     public EnrollmentDetailsDTO mapToEnrollmentDetailsDTO(Enrollment enrollment) {
-        return new EnrollmentDetailsDTO(enrollment.getId(), enrollment.getUser(), this.mapToCourseDetailsDTO(enrollment.getCourse()), enrollment.getEnrollmentDate(), enrollment.getCurrentLesson());
+        return new EnrollmentDetailsDTO(enrollment.getId(), enrollment.getUser(), this.mapToCourseDetailsDTO(enrollment.getCourse()), enrollment.getEnrollmentDate(), enrollment.getCurrentLesson(), enrollment.getCurrentUnit());
     }
 
     public CourseDetailsDTO mapToCourseDetailsDTO(Course course) {
