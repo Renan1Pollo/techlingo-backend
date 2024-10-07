@@ -6,6 +6,7 @@ import com.techlingo.dtos.question.QuestionDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "questions")
@@ -38,5 +39,16 @@ public class Question {
         this.lesson = data.lesson();
         this.description = data.description();
         this.index = data.index();
+    }
+
+    public List<Answer> getAnswers() {
+        if (this.answers == null) {
+            this.answers = new ArrayList<>(); // Garante que não seja nulo
+        }
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers != null ? answers : new ArrayList<>(); // Evita nulo
     }
 }

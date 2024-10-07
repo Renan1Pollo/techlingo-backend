@@ -10,6 +10,7 @@ import com.techlingo.repositories.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,18 +30,19 @@ public class QuestionService {
         return newQuestion;
     }
 
-    public Boolean updateQuestion(Long id, QuestionDTO data) {
+    public Question updateQuestion(Long id, QuestionDTO data) {
         Optional<Question> questionOptional = this.repository.findQuestionById(id);
 
         if (questionOptional.isPresent()) {
             Question existingQuestion = questionOptional.get();
             existingQuestion = new Question(data);
             existingQuestion.setId(id);
+            existingQuestion.setAnswers(existingQuestion.getAnswers().isEmpty() ? existingQuestion.getAnswers() : new ArrayList<>());
             repository.save(existingQuestion);
-            return true;
+            return existingQuestion;
         }
 
-        return false;
+        return null;
     }
 
     public Boolean deleteQuestionById(Long id) {
