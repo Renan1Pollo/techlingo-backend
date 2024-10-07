@@ -43,12 +43,12 @@ public class Question {
 
     public List<Answer> getAnswers() {
         if (this.answers == null) {
-            this.answers = new ArrayList<>(); // Garante que não seja nulo
+            this.answers = new ArrayList<>();
         }
         return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
-        this.answers = answers != null ? answers : new ArrayList<>(); // Evita nulo
+        this.answers = answers != null ? answers : new ArrayList<>();
     }
 }
