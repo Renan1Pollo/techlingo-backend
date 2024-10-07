@@ -1,11 +1,13 @@
 package com.techlingo.controllers;
 
 import com.techlingo.domain.answer.Answer;
+import com.techlingo.domain.question.Question;
 import com.techlingo.dtos.answer.AnswerDTO;
 import com.techlingo.dtos.answer.AnswerDetailsDTO;
 import com.techlingo.dtos.answer.AnswerResponseDTO;
 import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.AnswerService;
+import com.techlingo.services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class AnswerController {
 
     @Autowired
     private AnswerService answerService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @Autowired
     private EntityMappingService entityMappingService;
@@ -62,4 +67,16 @@ public class AnswerController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer Not Found");
         }
     }
+
+    @GetMapping("/questions")
+    public ResponseEntity<?> findAnswerByQuestionId(@RequestParam Long questionId) {
+        try {
+            Question question = questionService.findQuestionById(questionId);
+            List<AnswerDetailsDTO> answers = this.answerService.findAnswerByQuestion(question);
+            return answers.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer Not Found") : ResponseEntity.ok(answers);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Answer Not Found");
+        }
+    }
+
 }

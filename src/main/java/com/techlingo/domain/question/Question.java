@@ -31,7 +31,7 @@ public class Question {
     @Column(name = "`index`", nullable = false)
     private Integer index;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Answer> answers;
 
     public Question(QuestionDTO data) {

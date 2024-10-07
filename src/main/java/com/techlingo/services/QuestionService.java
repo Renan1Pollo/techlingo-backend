@@ -48,7 +48,6 @@ public class QuestionService {
 
         if (questionOptional.isPresent()) {
             Question question = questionOptional.get();
-            question.getAnswers().clear();
             repository.deleteById(question.getId());
             return true;
         }

@@ -1,6 +1,7 @@
 package com.techlingo.services;
 
 import com.techlingo.domain.answer.Answer;
+import com.techlingo.domain.question.Question;
 import com.techlingo.dtos.answer.AnswerDTO;
 import com.techlingo.dtos.answer.AnswerDetailsDTO;
 import com.techlingo.dtos.answer.AnswerResponseDTO;
@@ -9,6 +10,7 @@ import com.techlingo.repositories.AnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,5 +76,18 @@ public class AnswerService {
 
     public Answer findAnswerById(Long id) throws Exception {
         return this.repository.findAnswerById(id).orElseThrow(() -> new Exception("Resposta não encontrada"));
+    }
+
+    public List<AnswerDetailsDTO> findAnswerByQuestion(Question question) {
+        Optional<List<Answer>> answerOptionalList = this.repository.findAnswerByQuestion(question);
+
+        if (answerOptionalList.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Answer> answers = answerOptionalList.get();
+        return answers.stream()
+                .map(entityMappingService::mapToAnswerDetailsDTO)
+                .collect(Collectors.toList());
     }
 }
