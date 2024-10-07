@@ -31,8 +31,13 @@ public class QuestionController {
 
     @PutMapping("/{questionId}")
     public ResponseEntity<?> updateQuestion(@PathVariable Long questionId, @RequestBody QuestionDTO questionDTO) {
-        Boolean isUpdated = this.questionService.updateQuestion(questionId, questionDTO);
-        return isUpdated ? new ResponseEntity<>(HttpStatus.OK) : ResponseEntity.status(404).body("Question not found");
+        try {
+            Question updatedQuestion = questionService.updateQuestion(questionId, questionDTO);
+            return ResponseEntity.ok(updatedQuestion);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body("Question not found");
+        }
     }
 
     @DeleteMapping("/{questionId}")
