@@ -2,6 +2,7 @@ package com.techlingo.services;
 
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.enrollment.Enrollment;
+import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.enrollment.EnrollmentDTO;
 import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
@@ -44,16 +45,24 @@ public class EnrollmentService {
         return repository.save(enrollment);
     }
 
-    public Enrollment updateEnrollment(EnrollmentResponseDTO enrollmentResponseDTO, Long unitId) throws Exception {
+    public Enrollment updateEnrollment(EnrollmentResponseDTO enrollmentResponseDTO, Integer currentUnit, Integer currentLesson) throws Exception {
         Optional<Enrollment> enrollmentOptional = findEnrollmentById(enrollmentResponseDTO.id());
 
         if (enrollmentOptional.isEmpty()) {
-//            return Optional.of();
+            return new Enrollment();
         }
 
         Enrollment enrollment = enrollmentOptional.get();
-        enrollment.setCurrentUnit(enrollment.getCurrentLesson() + 1);
-        enrollment.setCurrentLesson(enrollment.getCurrentUnit());
+        List<Unit> units = enrollment.getCourse().getUnits();
+        List<Lesson> lessons = units.get(currentUnit).getLessons();
+
+        int lessonSize = lessons.size();
+        if (currentLesson == lessonSize) {
+            enrollment.setCurrentUnit(currentUnit++);
+            enrollment.setCurrentLesson(0);
+        } else {
+            enrollment.setCurrentLesson(currentLesson++);
+        }
 
         return repository.save(enrollment);
     }

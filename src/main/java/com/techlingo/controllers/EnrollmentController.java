@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-
 @RestController
 @RequestMapping("/enrollments")
 public class EnrollmentController {
@@ -31,9 +30,9 @@ public class EnrollmentController {
         return ResponseEntity.ok(entityMappingService.mapToEnrollmentResponseDTO(enrollment));
     }
 
-    @PutMapping("/enrollments/{unitId}")
-    public ResponseEntity<?> updateEnrollment(@RequestBody EnrollmentResponseDTO enrollmentResponseDTO, @PathVariable Long unitId) throws Exception {
-        Enrollment enrollment = enrollmentService.updateEnrollment(enrollmentResponseDTO, unitId);
+    @PutMapping
+    public ResponseEntity<?> updateEnrollment(@RequestBody EnrollmentResponseDTO enrollmentResponseDTO, @RequestParam Integer currentUnit, @RequestParam Integer currentLesson) throws Exception {
+        Enrollment enrollment = enrollmentService.updateEnrollment(enrollmentResponseDTO, currentUnit, currentLesson);
         return ResponseEntity.ok(entityMappingService.mapToEnrollmentResponseDTO(enrollment));
     }
 
@@ -74,7 +73,7 @@ public class EnrollmentController {
             return ResponseEntity.ok(enrollment);
         }
 
-       return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();
     }
 
 }
