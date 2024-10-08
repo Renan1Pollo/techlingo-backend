@@ -2,6 +2,7 @@ package com.techlingo.services;
 
 import com.techlingo.domain.course.Course;
 import com.techlingo.domain.enrollment.Enrollment;
+import com.techlingo.domain.lesson.Lesson;
 import com.techlingo.domain.unit.Unit;
 import com.techlingo.dtos.enrollment.EnrollmentDTO;
 import com.techlingo.dtos.enrollment.EnrollmentDetailsDTO;
@@ -44,16 +45,25 @@ public class EnrollmentService {
         return repository.save(enrollment);
     }
 
-    public Enrollment updateEnrollment(EnrollmentResponseDTO enrollmentResponseDTO, Long unitId) throws Exception {
-        Optional<Enrollment> enrollmentOptional = findEnrollmentById(enrollmentResponseDTO.id());
+    public Enrollment updateEnrollment(EnrollmentResponseDTO enrollmentResponseDTO, Integer currentUnit, Integer currentLesson) throws Exception {
+        Enrollment enrollment = findEnrollmentById(enrollmentResponseDTO.id()).orElseThrow(() -> new Exception("Enrollment not found"));
 
-        if (enrollmentOptional.isEmpty()) {
-//            return Optional.of();
+        boolean isLessonAlreadyCompleted = enrollment.getCurrentLesson() > currentLesson && enrollment.getCurrentUnit() == currentUnit;
+        if (isLessonAlreadyCompleted) {
+            return enrollment;
         }
 
-        Enrollment enrollment = enrollmentOptional.get();
-        enrollment.setCurrentUnit(enrollment.getCurrentLesson() + 1);
-        enrollment.setCurrentLesson(enrollment.getCurrentUnit());
+        List<Unit> units = enrollment.getCourse().getUnits();
+        List<Lesson> lessons = units.get(currentUnit).getLessons();
+        int totalLessons = lessons.size();
+
+        boolean isLastLessonInUnit = currentLesson == --totalLessons;
+        if (isLastLessonInUnit) {
+            enrollment.setCurrentUnit(++currentUnit);
+            enrollment.setCurrentLesson(0);
+        } else {
+            enrollment.setCurrentLesson(++currentLesson);
+        }
 
         return repository.save(enrollment);
     }
