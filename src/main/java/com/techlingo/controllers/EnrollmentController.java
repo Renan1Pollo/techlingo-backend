@@ -8,6 +8,7 @@ import com.techlingo.mapper.EntityMappingService;
 import com.techlingo.services.EnrollmentService;
 import com.techlingo.utils.ReportUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +32,15 @@ public class EnrollmentController {
     }
 
     @PutMapping
-    public ResponseEntity<?> updateEnrollment(@RequestBody EnrollmentResponseDTO enrollmentResponseDTO, @RequestParam Integer currentUnit, @RequestParam Integer currentLesson) throws Exception {
-        Enrollment enrollment = enrollmentService.updateEnrollment(enrollmentResponseDTO, currentUnit, currentLesson);
-        return ResponseEntity.ok(entityMappingService.mapToEnrollmentResponseDTO(enrollment));
+    public ResponseEntity<?> updateEnrollment(@RequestBody EnrollmentResponseDTO enrollmentResponseDTO, @RequestParam Integer currentUnit, @RequestParam Integer currentLesson) {
+        try {
+            Enrollment enrollment = enrollmentService.updateEnrollment(enrollmentResponseDTO, currentUnit, currentLesson);
+            return ResponseEntity.ok(entityMappingService.mapToEnrollmentResponseDTO(enrollment));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Enrollment not found: " + e.getMessage());
+        }
     }
+
 
     @GetMapping
     public ResponseEntity<List<EnrollmentResponseDTO>> getAllEnrollmentResponses() {

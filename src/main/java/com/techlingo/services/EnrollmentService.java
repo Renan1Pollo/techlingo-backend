@@ -46,22 +46,23 @@ public class EnrollmentService {
     }
 
     public Enrollment updateEnrollment(EnrollmentResponseDTO enrollmentResponseDTO, Integer currentUnit, Integer currentLesson) throws Exception {
-        Optional<Enrollment> enrollmentOptional = findEnrollmentById(enrollmentResponseDTO.id());
+        Enrollment enrollment = findEnrollmentById(enrollmentResponseDTO.id()).orElseThrow(() -> new Exception("Enrollment not found"));
 
-        if (enrollmentOptional.isEmpty()) {
-            return new Enrollment();
+        boolean isLessonAlreadyCompleted = enrollment.getCurrentLesson() > currentLesson && enrollment.getCurrentUnit() == currentUnit;
+        if (isLessonAlreadyCompleted) {
+            return enrollment;
         }
 
-        Enrollment enrollment = enrollmentOptional.get();
         List<Unit> units = enrollment.getCourse().getUnits();
         List<Lesson> lessons = units.get(currentUnit).getLessons();
+        int totalLessons = lessons.size();
 
-        int lessonSize = lessons.size();
-        if (currentLesson == lessonSize) {
-            enrollment.setCurrentUnit(currentUnit++);
+        boolean isLastLessonInUnit = currentLesson == --totalLessons;
+        if (isLastLessonInUnit) {
+            enrollment.setCurrentUnit(++currentUnit);
             enrollment.setCurrentLesson(0);
         } else {
-            enrollment.setCurrentLesson(currentLesson++);
+            enrollment.setCurrentLesson(++currentLesson);
         }
 
         return repository.save(enrollment);
