@@ -76,10 +76,13 @@ public class EnrollmentService {
 
         Enrollment enrollment = findEnrollmentById(enrollmentResponseDTO.id()).orElseThrow(() -> new IllegalArgumentException("Enrollment not found"));
         Unit unit = unitService.findUnitById(unitId);
+        List<Lesson> lessons = unit.getLessons();
+        int totalLessons = lessons.size();
 
         reportParams.put("userName", enrollment.getUser().getName());
         reportParams.put("courseName", enrollment.getCourse().getName());
         reportParams.put("unitTitle", unit.getTitle());
+        reportParams.put("totalLessons", totalLessons);
 
         return ReportUtils.generatePdfReport(reportFile.getAbsolutePath(), reportParams);
     }

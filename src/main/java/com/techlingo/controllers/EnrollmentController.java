@@ -41,7 +41,6 @@ public class EnrollmentController {
         }
     }
 
-
     @GetMapping
     public ResponseEntity<List<EnrollmentResponseDTO>> getAllEnrollmentResponses() {
         List<EnrollmentResponseDTO> enrollments = enrollmentService.getAllEnrollmentResponses();

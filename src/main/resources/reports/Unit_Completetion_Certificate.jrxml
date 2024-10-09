@@ -15,6 +15,7 @@
 	<parameter name="userName" class="java.lang.String"/>
 	<parameter name="unitTitle" class="java.lang.String"/>
 	<parameter name="courseName" class="java.lang.String"/>
+	<parameter name="totalLessons" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -54,7 +55,7 @@
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Certificamos que " + $P{userName} +" concluiu com aproveitamento o curso online: " + $P{courseName} + ": " + $P{unitTitle} +  ", realizando 87 de 87 atividades."]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Certificamos que " + $P{userName} +" concluiu com aproveitamento o curso online: " + $P{courseName} + ": " + $P{unitTitle} +  ", realizando " + $P{totalLessons} + " de " + $P{totalLessons} + " atividades."]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
